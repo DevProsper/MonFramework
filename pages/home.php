@@ -1,2 +1,6 @@
-<h1>Home Page</h1>
-        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+<ul>
+    <?php foreach($db->query('SELECT * FROM articles', 'App\Table\Article') as $post):?>
+    	<h2><a href="<?= $post->url ?>"><?= $post->titre;  ?></a></h2>
+    	<p><?= $post->extrait; ?></p>
+    <?php endforeach;?>
+</ul>

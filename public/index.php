@@ -1,7 +1,7 @@
 <?php 
 
 require '../vendor/autoload.php';
-
+$db = new \App\Database('blog');
 if(isset($_GET['p'])){
     $p = $_GET['p'];
 }else{
@@ -14,6 +14,9 @@ if ($p === 'home') {
 if ($p === 'single') {
 	require '../pages/single.php';
 }
+
+//Initialisation des objets
+
 
 $content = ob_get_clean();
 require '../pages/template/default.php';

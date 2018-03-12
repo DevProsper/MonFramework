@@ -1,2 +1,6 @@
-<h1>Single Page</h1>
-        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+<?php 
+$post = $db->prepare('SELECT * FROM articles WHERE id = ?', [$_GET['id']], 'App\Table\Article', true);
+?>
+
+<h1><?= $post->titre; ?></h1>
+<p><?= $post->contenu; ?></p>

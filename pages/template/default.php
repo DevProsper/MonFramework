@@ -48,7 +48,7 @@
     </nav>
     <style type="text/css">
     	.cont{
-    		padding-top: 50px;
+    		padding-top: 70px;
     	}
     </style>
 
