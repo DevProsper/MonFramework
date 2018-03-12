@@ -1,0 +1,16 @@
+{
+    "name": "devprosper/frame",
+    "description": "Framework PHP avec mise en place des design patern comme Singleton,MVC ect.",
+    "autoload" : {
+    	"psr-4" : {
+    		"App\\" : "app/"
+    	}
+    },
+    "authors": [
+        {
+            "name": "DevProsper",
+            "email": "prosperngouari38@gmail.com"
+        }
+    ],
+    "require": {}
+}
