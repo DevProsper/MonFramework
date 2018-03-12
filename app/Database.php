@@ -37,16 +37,21 @@ class Database
 
     private function getPDO(){
         if($this->pdo === null){
-            $pdo = new \PDO('mysql:dbname=frame;host=localhost', 'root', '');
+            $pdo = new PDO('mysql:dbname=frame;host=localhost', 'root', '');
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->pdo = $pdo;
         }
         return $this->pdo;
     }
 
-    public function query($statement, $class_name){
+    public function query($statement, $class_name,$one = false){
         $req = $this->getPDO()->query($statement);
-        $datas = $req->fetchAll(PDO::FETCH_CLASS, $class_name);
+        $req->setFetchMode(PDO::FETCH_CLASS, $class_name);
+        if($one){
+            $datas = $req->fetch();
+        }else{
+            $datas = $req->fetchAll();
+        }
         return $datas;
     }
 

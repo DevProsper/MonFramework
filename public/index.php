@@ -13,6 +13,8 @@ if ($p === 'home') {
 }
 if ($p === 'single') {
 	require '../pages/single.php';
+}if ($p === 'categorie') {
+    require '../pages/categorie.php';
 }
 
 //Initialisation des objets

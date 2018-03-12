@@ -13,7 +13,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Starter Template for Bootstrap</title>
+    <title><?= \App\App::getTitle()  ?></title>
 
     <!-- Bootstrap core CSS -->
     <link href="../public/css/style.css" rel="stylesheet">
