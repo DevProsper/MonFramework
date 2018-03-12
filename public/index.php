@@ -2,5 +2,5 @@
 
 require '../vendor/autoload.php';
 
-$config = \App\Config::getInstance()->get('db_name');
-var_dump($config);
+var_dump(App\App::getTable('Posts'));
+var_dump(App\App::getTable('Users'));
