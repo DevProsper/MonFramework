@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Table;
+namespace App\Core\Table;
+use App\Core\Database\Database;
+
 /**
  * Created by PhpStorm.
  * User: DevProsper
@@ -10,8 +12,10 @@ namespace App\Table;
 class Table
 {
     protected $table;
+    protected $db;
 
-    public function __construct(){
+    public function __construct(Database $db){
+        $this->db = $db;
         if(is_null($this->table)){
             $parts = explode('\\', get_class($this));
             $class_name = end($parts);

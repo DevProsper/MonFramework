@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Core\Database;
 use \PDO;
 /**
  * Created by PhpStorm.
@@ -7,7 +7,7 @@ use \PDO;
  * Date: 12/03/2018
  * Time: 09:56
  */
-class Database
+class MysqlDatabase extends Database
 {
     private $db_name;
     /**
@@ -44,9 +44,13 @@ class Database
         return $this->pdo;
     }
 
-    public function query($statement, $class_name,$one = false){
+    public function query($statement, $class_name = null,$one = false){
         $req = $this->getPDO()->query($statement);
-        $req->setFetchMode(PDO::FETCH_CLASS, $class_name);
+        if($class_name === null){
+            $req->setFetchMode(PDO::FETCH_OBJ);
+        }else{
+            $req->setFetchMode(PDO::FETCH_CLASS, $class_name);
+        }
         if($one){
             $datas = $req->fetch();
         }else{

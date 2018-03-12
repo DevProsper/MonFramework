@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Table;
+use App\Core\Table\Table;
+
 /**
  * Created by PhpStorm.
  * User: DevProsper
