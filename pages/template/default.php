@@ -13,7 +13,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title><?= \App\App::getTitle()  ?></title>
+    <title><?= App::getInstance()->title;  ?></title>
 
     <!-- Bootstrap core CSS -->
     <link href="../public/css/style.css" rel="stylesheet">

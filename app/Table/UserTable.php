@@ -9,7 +9,7 @@ use App\Core\Table\Table;
  * Date: 12/03/2018
  * Time: 18:17
  */
-class PostsTable extends Table
+class UserTable extends Table
 {
 
 }
