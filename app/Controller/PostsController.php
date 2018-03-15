@@ -34,7 +34,8 @@ class PostsController extends AppController
     }
 
     public function show(){
-
+        $article = $this->Post->findWithCategory($_GET['id']);
+        $this->render('posts.show', compact('article'));
     }
 
 }
