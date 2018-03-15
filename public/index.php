@@ -1,4 +1,5 @@
 <?php
+
 use App\Controller\PostsController;
 use App\Controller\UsersController;
 
@@ -10,9 +11,10 @@ App::load();
 if (isset($_GET['p'])) {
 	$page = $_GET['p'];
 }else{
-	$page = 'posts.index';
+	//$page = 'posts.index';
+	$page = 'home';
 }
-$page = explode('.', $page);
+/*$page = explode('.', $page);
 if ($page[0] == 'admin') {
 	$controller = '\App\Controller\Admin\\' .ucfirst($page[1]) . 'Controller';
 	$action = $page[2];
@@ -21,8 +23,8 @@ if ($page[0] == 'admin') {
 	$action = $page[1];
 }
 $controller = new $controller();
-$controller->$action();
-/*if ($page === 'home') {
+$controller->$action();*/
+if ($page === 'home') {
 	$controller = new PostsController();
 	$controller->index();
 }elseif($page === 'posts.category'){
@@ -43,4 +45,4 @@ $controller->$action();
 }elseif($page === 'admin.posts.add'){
 	$controller = new \App\Controller\Admin\PostsController();
 	$controller->add();
-}*/
+}
