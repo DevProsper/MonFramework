@@ -1,5 +1,6 @@
 <?php
 use App\Controller\PostsController;
+use App\Controller\UsersController;
 
 define('ROOT', dirname(__DIR__));
 require '../app/App.php';
@@ -25,6 +26,9 @@ if ($page === 'home') {
 }elseif($page === 'login'){
 	$controller = new UsersController();
 	$controller->login();
+}elseif($page === 'admin.posts.index'){
+	$controller = new \App\Controller\Admin\PostsController();
+	$controller->index();
 }
 
 $content = ob_get_clean();

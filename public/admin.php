@@ -11,12 +11,6 @@ if (isset($_GET['p'])) {
 }else{
     $page = 'home';
 }
-$app = App::getInstance();
-//Auth
-$auth = new DBAuth($app->getDB());
-if(!$auth->logged()){
-    $app->forbidden();
-}
 
 ob_start();
 if ($page === 'home') {
