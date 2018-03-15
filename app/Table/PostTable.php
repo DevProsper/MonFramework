@@ -32,7 +32,7 @@ class PostTable extends Table
           FROM articles
           LEFT JOIN categories
           ON categories.id = articles.category_id
-          WHERE $id = ?
+          WHERE articles.id = ?
           ORDER BY articles.date DESC
           ", [$id], true);
     }
