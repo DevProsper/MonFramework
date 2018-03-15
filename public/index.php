@@ -10,11 +10,19 @@ App::load();
 if (isset($_GET['p'])) {
 	$page = $_GET['p'];
 }else{
-	$page = 'home';
+	$page = 'posts.index';
 }
-
-ob_start();
-if ($page === 'home') {
+$page = explode('.', $page);
+if ($page[0] == 'admin') {
+	$controller = '\App\Controller\Admin\\' .ucfirst($page[1]) . 'Controller';
+	$action = $page[2];
+}else{
+	$controller = '\App\Controller\\' .ucfirst($page[0] . 'Controller');
+	$action = $page[1];
+}
+$controller = new $controller();
+$controller->$action();
+/*if ($page === 'home') {
 	$controller = new PostsController();
 	$controller->index();
 }elseif($page === 'posts.category'){
@@ -29,7 +37,10 @@ if ($page === 'home') {
 }elseif($page === 'admin.posts.index'){
 	$controller = new \App\Controller\Admin\PostsController();
 	$controller->index();
-}
-
-$content = ob_get_clean();
-require ROOT . '/app/Views/template/default.php';
+}elseif($page === 'admin.posts.edit'){
+	$controller = new \App\Controller\Admin\PostsController();
+	$controller->edit();
+}elseif($page === 'admin.posts.add'){
+	$controller = new \App\Controller\Admin\PostsController();
+	$controller->add();
+}*/
