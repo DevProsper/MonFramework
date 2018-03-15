@@ -11,13 +11,13 @@ if(!empty($_POST)){
         header('Location : admin.php?p=posts.edit&id=' .$id);
     }
 }
-$categories = App::getInstance()->getTable('Category')->extract('id', 'nom');
+$categories_list = App::getInstance()->getTable('Category')->extract('id', 'nom');
 $form = new \App\Core\Html\BootstrapForm($_POST);
 ?>
 
 <form action="" method="post">
     <?= $form->input('titre', 'Titre'); ?>
     <?= $form->input('contenu', 'Contenu', ['type' => 'textarea']); ?>
-    <?= $form->select('category_id', 'Categories', $categories); ?>
+    <?= $form->select('category_id', 'Categories', $categories_list); ?>
     <button class="btn btn-primary">Sauvegarder</button>
 </form>

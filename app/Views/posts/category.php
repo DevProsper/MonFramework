@@ -1,14 +1,3 @@
-<?php
-$app = App::getInstance();
-$categorie = $app->getTable('Category')->find($_GET['id']);
-if($categorie === false){
-    $app->notFound();
-}
-
-$articles = $app->getTable('Post')->lastByCategory($_GET['id']);
-$categories = $app->getTable('Category')->all();
-?>
-
 <div class="row">
     <div class="col-md-8">
         <?php foreach($articles as $article):?>
