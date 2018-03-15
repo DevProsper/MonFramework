@@ -19,5 +19,10 @@ if ($page === 'home') {
 	require ROOT . '/pages/posts/show.php';
 }
 
+//users
+if ($page === 'login') {
+	require ROOT . '/pages/users/login.php';
+}
+
 $content = ob_get_clean();
 require ROOT . '/pages/template/default.php';

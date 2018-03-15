@@ -2,7 +2,7 @@
 	<div class="col-md-8">
 		<?php foreach(App::getInstance()->getTable('Post')->last() as $post):?>
 	    	<h2><a href="<?= $post->url ?>"><?= $post->titre;  ?></a> </h2>
-	    	<i><b><?= $post->categorie; ?></b></i>
+	    	<i><b><?= $post->category; ?></b></i>
 	    	<p><?= $post->extrait; ?></p>
     	<?php endforeach;?>
 	</div>
