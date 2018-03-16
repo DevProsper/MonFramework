@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Core\Table;
-use App\Core\Database\Database;
+use App\Core\Database\MysqlDatabase;
 
 /**
  * Created by PhpStorm.
@@ -14,7 +14,10 @@ class Table
     protected $table;
     protected $db;
 
-    public function __construct(Database $db){
+    //Nombre de page affiche sur la pagination
+    protected $page;
+
+    public function __construct(MysqlDatabase $db){
         $this->db = $db;
         if(is_null($this->table)){
             $parts = explode('\\', get_class($this));
@@ -77,5 +80,4 @@ class Table
     public function delete($id){
         return $this->query("DELETE FROM {$this->table} WHERE id = ?", [$id], true);
     }
-
 }

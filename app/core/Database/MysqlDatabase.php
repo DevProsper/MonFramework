@@ -27,6 +27,14 @@ class MysqlDatabase extends Database
      */
     private $pdo;
 
+
+    /**
+     * Ininitialisation des variables
+     * @param $db_name
+     * @param string $db_user
+     * @param string $db_pass
+     * @param string $d_host
+     */
     public function __construct($db_name, $db_user = 'root', $db_pass = '', $d_host = 'localhost'){
 
         $this->db_name = $db_name;
@@ -35,7 +43,10 @@ class MysqlDatabase extends Database
         $this->db_pass = $db_pass;
     }
 
-    private function getPDO(){
+    /**
+     * @return PDO|string  Retourne un objet de type PDO
+     */
+    public function getPDO(){
         if($this->pdo === null){
             $pdo = new PDO('mysql:dbname=frame;host=localhost', 'root', '');
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -44,6 +55,23 @@ class MysqlDatabase extends Database
         return $this->pdo;
     }
 
+    /**
+     * @param $stattement Retourne uniquement la requette sous forme de tableau
+     * @return array
+     */
+    public function queryPaginate($stattement){
+        $req = $this->getPDO()->query($stattement);
+        $datas = $req->fetch();
+        return $datas;
+
+    }
+
+    /**
+     * @param $statement Requêtte
+     * @param null $class_name classe a chargé
+     * @param bool|false $one false si on veut une seule requêtte
+     * @return array si
+     */
     public function query($statement, $class_name = null,$one = false){
         $req = $this->getPDO()->query($statement);
         if(
@@ -66,6 +94,13 @@ class MysqlDatabase extends Database
         return $datas;
     }
 
+    /**
+     * @param $statement
+     * @param $attributes
+     * @param null $class_name
+     * @param bool|false $one
+     * @return array|bool|mixed
+     */
     public function prepare($statement, $attributes, $class_name = null, $one = false){
         $req = $this->getPDO()->prepare($statement);
         $res = $req->execute($attributes);
@@ -89,6 +124,9 @@ class MysqlDatabase extends Database
         return $datas;
     }
 
+    /**
+     * @return string Retourne le dernier Id enregistrer
+     */
     public function lastInsertId(){
         return $this->getPDO()->lastInsertId();
     }

@@ -40,7 +40,7 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="<?= ($p === 'home') ? 'active' : ''; ?>"><a href="index.php?p=posts.index">Home</a></li>
+            <li class="<?= ($p === 'home') ? 'active' : ''; ?>"><a href="index.php">Home</a></li>
             <li class="<?= ($p === 'single') ? 'active' : ''; ?>"><a href="index.php?p=single">Signle</a></li>
           </ul>
         </div><!--/.nav-collapse -->

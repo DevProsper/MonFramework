@@ -11,6 +11,16 @@ class Controller
     protected $viewPath;
     protected $template;
 
+    /**
+     * Permet de passer les variables à la vue
+     **/
+    public $vars = array();
+
+    /**
+     * Permet de rendre la vue
+     * @param $view
+     * @param array $variables
+     */
     public function render($view, $variables = []){
         ob_start();
         extract($variables);

@@ -4,7 +4,9 @@ use App\Controller\PostsController;
 use App\Controller\UsersController;
 
 define('ROOT', dirname(__DIR__));
+require ROOT . '/config/ConfigTest.php';
 require '../app/App.php';
+
 
 App::load();
 
@@ -45,4 +47,7 @@ if ($page === 'home') {
 }elseif($page === 'admin.posts.add'){
 	$controller = new \App\Controller\Admin\PostsController();
 	$controller->add();
+}elseif($page === 'admin.posts.delete'){
+	$controller = new \App\Controller\Admin\PostsController();
+	$controller->delete();
 }
