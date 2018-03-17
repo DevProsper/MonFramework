@@ -51,3 +51,7 @@ if ($page === 'home') {
 	$controller = new \App\Controller\Admin\PostsController();
 	$controller->delete();
 }
+elseif($page === 'demo.index'){
+	$controller = new \App\Controller\DemoController();
+	$controller->index();
+}

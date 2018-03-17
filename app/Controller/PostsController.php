@@ -1,5 +1,6 @@
 <?php
 namespace App\Controller;
+use App\Core\Database\QueryBuilder;
 
 /**
  * Created by PhpStorm.
@@ -22,16 +23,6 @@ class PostsController extends AppController
         $this->render('posts.index', compact('posts', 'categories'));
     }
 
-    public function indexT(){
-        $conditions = array('category_id' => 1);
-        $join = array('categories.id' => 'articles.category_id');
-        $posts = $this->Post->findWithCondition(array(
-            'conditions' => $conditions,
-            'join' => $join
-        ));
-        $categories = $this->Category->all();
-        $this->render('posts.index', compact('posts', 'categories'));
-    }
 
     public function category(){
         $categorie = $this->Category->find($_GET['id']);

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Table;
+use App\Core\Database\MysqlDatabase;
 use App\Core\Table\Table;
 
 /**
@@ -16,6 +17,8 @@ class PostTable extends Table
      *Révupère les derniers posts
      * @return array
      */
+
+
     public function last(){
         return $this->query("
             SELECT articles.id, articles.titre, articles.contenu, articles.date,articles.category_id, categories.nom as category
@@ -47,5 +50,4 @@ class PostTable extends Table
           ORDER BY articles.date DESC
           ", [$category_id]);
     }
-
 }
