@@ -2,6 +2,7 @@
 
 namespace App\Core\Table;
 use App\Core\Database\MysqlDatabase;
+use PDO;
 
 /**
  * Created by PhpStorm.
@@ -79,5 +80,61 @@ class Table
 
     public function delete($id){
         return $this->query("DELETE FROM {$this->table} WHERE id = ?", [$id], true);
+    }
+
+    public function findWithCondition($req){
+        $sql = 'SELECT ';
+
+        if (isset($req['fields'])) {
+            if (is_array($req['fields'])) {
+                $sql .= implode(', ', $req['fields']);
+            }else{
+                $sql .= $req['fields'];
+            }
+        }else{
+            $sql .= '*';
+        }
+
+        $sql .= ' FROM ' . $this->table;
+
+        //Construction des jointures
+        if (isset($req['join'])) {
+            $sql .= ' LEFT JOIN ';
+            if(is_array($req['join'])){
+                $cond = array();
+                foreach ($req['join'] as $k => $v) {
+                    if (!is_numeric($v)) {
+                        $v = ''.mysql_real_escape_string($v).'';
+                    }
+                    $cond[] = "$k=$v";
+                }
+                $sql .= implode(' ON ', $cond);
+            }
+        }
+
+        //Construction de la condition
+        if (isset($req['conditions'])) {
+            $sql .= ' WHERE ';
+            if (!is_array($req['conditions'])) {
+                $sql .= $req['conditions'];
+            }else{
+                $cond = array();
+                foreach ($req['conditions'] as $k => $v) {
+                    if (!is_numeric($v)) {
+                        $v = '"'.mysql_real_escape_string($v).'"';
+                    }
+                    $cond[] = "$k=$v";
+                }
+                $sql .= implode(' AND ', $cond);
+            }
+        }
+
+        if (isset($req['limit'])) {
+            $sql .= 'LIMIT ' .$req['limit'];
+        }
+
+        $pre = $this->db->getPDO()->prepare($sql);
+        $pre->execute();
+        return $pre->fetchAll(PDO::FETCH_OBJ);
     }
 }
