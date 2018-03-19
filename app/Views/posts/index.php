@@ -5,8 +5,6 @@
 	    	<i><b><?= $post->category; ?></b></i>
 	    	<p><?= $post->extrait; ?></p>
     	<?php endforeach;?>
-
-		
 	</div>
 
 	<div class="col-md-4">

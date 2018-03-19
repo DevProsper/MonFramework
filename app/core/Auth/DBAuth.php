@@ -42,4 +42,21 @@ class DBAuth
         return isset($_SESSION['auth']);
     }
 
+    public function forgetPassword(){
+
+    }
+
+    public function resetPassword(){
+
+    }
+
+    public function remenberToken(){}
+
+    public function is_admin(){
+
+    }
+
+    public function is_modo(){
+
+    }
 }

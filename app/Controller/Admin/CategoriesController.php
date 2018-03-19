@@ -8,7 +8,7 @@ use App\Core\Html\BootstrapForm;
  * Date: 15/03/2018
  * Time: 12:37
  */
-class CategoriesController extends AppController
+class CategoriesController extends AdminAppController
 {
     public function __construct(){
         parent::__construct();
@@ -26,8 +26,6 @@ class CategoriesController extends AppController
                 'nom' => $_POST['nom']
             ]);
             if ($result) {
-                //$id = App::getInstance()->getDB()->lastInsertId();
-                //header('Location : admin.php?p=admin.posts.edit&id=' .$id);
                 return $this->index();
             }
         }

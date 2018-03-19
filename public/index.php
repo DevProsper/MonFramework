@@ -2,14 +2,12 @@
 
 use App\Controller\PostsController;
 use App\Controller\UsersController;
+use App\Core\Session\Session;
 
 define('ROOT', dirname(__DIR__));
 require ROOT . '/config/ConfigTest.php';
 require '../app/App.php';
-
-
 App::load();
-
 if (isset($_GET['p'])) {
 	$page = $_GET['p'];
 }else{
@@ -51,7 +49,7 @@ if ($page === 'home') {
 	$controller = new \App\Controller\Admin\PostsController();
 	$controller->delete();
 }
-elseif($page === 'demo.index'){
-	$controller = new \App\Controller\DemoController();
-	$controller->index();
+elseif($page === 'logout'){
+	$controller = new UsersController();
+	$controller->logout();
 }

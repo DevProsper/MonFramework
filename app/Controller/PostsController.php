@@ -1,6 +1,6 @@
 <?php
 namespace App\Controller;
-use App\Core\Database\QueryBuilder;
+
 
 /**
  * Created by PhpStorm.
@@ -23,7 +23,16 @@ class PostsController extends AppController
         $this->render('posts.index', compact('posts', 'categories'));
     }
 
-
+    public function test(){
+        $perPage = 2;
+        $conditions = array('category_id'=> 2);
+        $d['posts'] = $this->Post->findWithCondition(array(
+            'conditions' => $conditions,
+            'limit'		 => ($perPage*($this->request->page-1)).','.$perPage
+        ));
+        $d['total'] = $this->Post->findCount($conditions);
+        $d['page'] = ceil($d['total'] / $perPage);
+    }
     public function category(){
         $categorie = $this->Category->find($_GET['id']);
         if($categorie === false){

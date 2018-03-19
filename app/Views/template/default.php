@@ -42,6 +42,7 @@
           <ul class="nav navbar-nav">
             <li class="<?= ($p === 'home') ? 'active' : ''; ?>"><a href="index.php">Home</a></li>
             <li class="<?= ($p === 'single') ? 'active' : ''; ?>"><a href="index.php?p=single">Signle</a></li>
+              <li class="<?= ($p === 'logout') ? 'active' : ''; ?>"><a href="index.php?p=logout">Déconnexion</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -53,7 +54,7 @@
     </style>
 
     <div class="container cont">
-
+        <?= \App\Core\Session\Session::flash(); ?>
       <div class="starter-template">
         <?= $content; ?>
       </div>

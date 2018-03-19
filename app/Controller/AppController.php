@@ -31,4 +31,8 @@ class AppController extends Controller
         die('Page introuvable');
     }
 
+    public function redirect($path){
+        header('Location : index.php?p=' .$path);
+    }
+
 }

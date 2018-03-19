@@ -14,10 +14,6 @@ class Table
 {
     protected $table;
     protected $db;
-    private $firsToPage;
-    private $current;
-    private $perPage;
-
 
     public function __construct(MysqlDatabase $db){
         $this->db = $db;
@@ -83,41 +79,6 @@ class Table
         return $this->query("DELETE FROM {$this->table} WHERE id = ?", [$id], true);
     }
 
-    public function returnFirst(){
-        return $this->firsToPage;
-    }
-
-    public function findWithPaginate($statement, $perPage){
-        if (isset($_GET['pp']) && !empty($_GET['pp']) && ctype_digit($_GET['pp']) == 1) {
-            $perPage = $_GET['pp'];
-        }else{
-            $this->$perPage = 10;
-        }
-
-
-        $req = $this->db->getPDO()->query('SELECT COUNT(*) AS total FROM ' . $this->table);
-        $resultats = $req->fetch();
-        $total = $resultats['total'];
-        $nbPage = ceil($total/$perPage);
-
-        if (isset($_GET['p']) && !empty($_GET['p']) && ctype_digit($_GET['p']) == 1) {
-            if ($_GET['p'] > $nbPage) {
-                $current = $nbPage;
-            }else{
-                $current = $_GET['p'];
-            }
-        }else{
-            $current = 1;
-        }
-
-        $firsToPage = ($current-1)*$perPage;
-        $req2 = $this->db->getPDO()->query($statement);
-        $fetch = $req2->fetch();
-        $requette = $this->findWithPaginate($fetch.'' .$firsToPage, $perPage);
-        var_dump($requette);
-        die();
-        return $requette;
-    }
 
     public function findWithCondition($req){
         $sql = 'SELECT ';
@@ -133,21 +94,6 @@ class Table
         }
 
         $sql .= ' FROM ' . $this->table;
-
-        //Construction des jointures
-        if (isset($req['join'])) {
-            $sql .= ' LEFT JOIN ';
-            if(is_array($req['join'])){
-                $cond = array();
-                foreach ($req['join'] as $k => $v) {
-                    if (!is_numeric($v)) {
-                        $v = ''.mysql_real_escape_string($v).'';
-                    }
-                    $cond[] = "$k=$v";
-                }
-                $sql .= implode(' ON ', $cond);
-            }
-        }
 
         //Construction de la condition
         if (isset($req['conditions'])) {
@@ -175,63 +121,15 @@ class Table
         return $pre->fetchAll(PDO::FETCH_OBJ);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFirsToPage()
-    {
-        return $this->firsToPage;
+    public function findFirst($req){
+        return current($this->findWithCondition($req));
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCurrent()
-    {
-        return $this->current;
+    public function findCount($conditions){
+        $res = $this->findFirst(array(
+            'fields' => 'COUNT(*) as count',
+            'conditions' => $conditions
+        ));
+        return $res->count;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getPerPage()
-    {
-        return $this->perPage;
-    }
-
-    /**
-     * @param mixed $current
-     */
-    public function setCurrent($current)
-    {
-        $this->current = $current;
-    }
-
-    /**
-     * @param mixed $firsToPage
-     */
-    public function setFirsToPage($firsToPage)
-    {
-        $this->firsToPage = $firsToPage;
-    }
-
-    /**
-     * @param mixed $perPage
-     */
-    public function setPerPage($perPage)
-    {
-        $this->perPage = $perPage;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTable()
-    {
-        return $this->table;
-    }
-
-
-
-
 }

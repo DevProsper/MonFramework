@@ -27,4 +27,19 @@ class UsersController extends AppController
 
         $this->render('users.login', compact('form', 'errors'));
     }
+
+    public function logout(){
+        unset($_SESSION['auth']);
+        $this->login();
+    }
+
+    public function forgetPassword(){
+
+    }
+
+    public function resetPassword(){
+
+    }
+
+    public function remenberToken(){}
 }

@@ -29,4 +29,5 @@ class Controller
         require($this->viewPath . 'template/' . $this->template . '.php');
     }
 
+
 }

@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller\Admin;
 use App\Core\Html\BootstrapForm;
+use App\Core\Session\Session;
 
 /**
  * Created by PhpStorm.
@@ -8,7 +9,7 @@ use App\Core\Html\BootstrapForm;
  * Date: 15/03/2018
  * Time: 12:37
  */
-class PostsController extends AppController
+class PostsController extends AdminAppController
 {
     public function __construct(){
         parent::__construct();
@@ -53,12 +54,14 @@ class PostsController extends AppController
         $post = $this->Post->find($_GET['id']);
         $categories_list = $this->Category->extract('id', 'nom');
         $form = new BootstrapForm($post);
+        Session::setFlash("Ce post a bien été modifié", "success");
         $this->render('admin.posts.edit', compact('form', 'categories_list'));
     }
 
     public function delete(){
         if(!empty($_POST)){
             $this->Post->delete($_POST['id']);
+            Session::setFlash("Ce post a bien été modifié", "success");
             return $this->index();
         }
     }

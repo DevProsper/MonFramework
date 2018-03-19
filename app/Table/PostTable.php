@@ -50,4 +50,5 @@ class PostTable extends Table
           ORDER BY articles.date DESC
           ", [$category_id]);
     }
+
 }

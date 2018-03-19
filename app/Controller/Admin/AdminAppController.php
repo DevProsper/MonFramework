@@ -10,7 +10,7 @@ namespace App\Controller\Admin;
 use \App;
 use App\Core\Auth\DBAuth;
 
-class AppController extends \App\Controller\AppController
+class AdminAppController extends \App\Controller\AppController
 {
 
     public function __construct(){
@@ -18,7 +18,7 @@ class AppController extends \App\Controller\AppController
         $app = App::getInstance();
         $auth = new DBAuth($app->getDB());
         if(!$auth->logged()){
-            $this->forbidden();
+            $this->redirect('login');
         }
 
     }
