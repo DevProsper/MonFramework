@@ -51,4 +51,8 @@ class PostTable extends Table
           ", [$category_id]);
     }
 
+    public function query($name){
+        $this->searchQuery($name, 'content');
+    }
+
 }

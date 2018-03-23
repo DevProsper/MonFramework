@@ -26,7 +26,7 @@ $controller = new $controller();
 $controller->$action();*/
 if ($page === 'home') {
 	$controller = new PostsController();
-	$controller->index();
+	$controller->test();
 }elseif($page === 'posts.category'){
 	$controller = new PostsController();
 	$controller->category();

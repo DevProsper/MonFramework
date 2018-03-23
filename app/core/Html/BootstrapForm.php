@@ -16,7 +16,7 @@ class BootstrapForm extends Form
         return "<div class=\"form-group\">{$html}</div>";
     }
 
-    public function input($name,$label,$options = []){
+    public function input($name,$label = null,$options = []){
         $label = '<label>'.$label.'</label>';
         $type = isset($options['type']) ? $options['type'] : 'text';
         if($type === 'textarea'){

@@ -1,5 +1,6 @@
 <?php
 namespace App\Controller;
+use App\Core\Html\BootstrapForm;
 
 
 /**
@@ -24,14 +25,7 @@ class PostsController extends AppController
     }
 
     public function test(){
-        $perPage = 2;
-        $conditions = array('category_id'=> 2);
-        $d['posts'] = $this->Post->findWithCondition(array(
-            'conditions' => $conditions,
-            'limit'		 => ($perPage*($this->request->page-1)).','.$perPage
-        ));
-        $d['total'] = $this->Post->findCount($conditions);
-        $d['page'] = ceil($d['total'] / $perPage);
+        $posts = $this->Post->query($_GET['q']);
     }
     public function category(){
         $categorie = $this->Category->find($_GET['id']);
@@ -47,6 +41,19 @@ class PostsController extends AppController
     public function show(){
         $article = $this->Post->findWithCategory($_GET['id']);
         $this->render('posts.show', compact('article'));
+    }
+
+    public function query($query){
+        if(!empty($$_GET)){
+            $result = $this->Category->create([
+                'nom' => $_POST['nom']
+            ]);
+            if ($result) {
+                return $this->index();
+            }
+        }
+        $form = new BootstrapForm($_POST);
+        $this->render('admin.categories.edit', compact('form'));
     }
 
 }

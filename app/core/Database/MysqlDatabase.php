@@ -59,13 +59,6 @@ class MysqlDatabase extends Database
      * @param $stattement Retourne uniquement la requette sous forme de tableau
      * @return array
      */
-    public function queryPaginate($stattement){
-        $req = $this->getPDO()->query($stattement);
-        $datas = $req->fetch();
-        return $datas;
-
-    }
-
     /**
      * @param $statement Requêtte
      * @param null $class_name classe a chargé

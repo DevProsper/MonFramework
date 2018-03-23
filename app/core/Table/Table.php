@@ -79,57 +79,23 @@ class Table
         return $this->query("DELETE FROM {$this->table} WHERE id = ?", [$id], true);
     }
 
-
-    public function findWithCondition($req){
-        $sql = 'SELECT ';
-
-        if (isset($req['fields'])) {
-            if (is_array($req['fields'])) {
-                $sql .= implode(', ', $req['fields']);
-            }else{
-                $sql .= $req['fields'];
-            }
-        }else{
-            $sql .= '*';
-        }
-
-        $sql .= ' FROM ' . $this->table;
-
-        //Construction de la condition
-        if (isset($req['conditions'])) {
-            $sql .= ' WHERE ';
-            if (!is_array($req['conditions'])) {
-                $sql .= $req['conditions'];
-            }else{
-                $cond = array();
-                foreach ($req['conditions'] as $k => $v) {
-                    if (!is_numeric($v)) {
-                        $v = '"'.mysql_real_escape_string($v).'"';
+    public function searchQuery($query,$field){
+        if(isset($_GET[$query])){
+            $q = $_GET[$query];
+            $s = explode(" ", $q);
+            $sql = $this->db->getPDO()->query("SELECT * FROM " .$this->table);
+            $i = 0;
+            foreach($s as $mot){
+                if(strlen($mot) > 4){
+                    if($i == 0){
+                        $sql .= " WHERE ";
+                    }else{
+                        $sql .= " OR ";
                     }
-                    $cond[] = "$k=$v";
+                    $sql .= $field." LIKE '%$mot%'";
+                    $i++;
                 }
-                $sql .= implode(' AND ', $cond);
             }
         }
-
-        if (isset($req['limit'])) {
-            $sql .= 'LIMIT ' .$req['limit'];
-        }
-
-        $pre = $this->db->getPDO()->prepare($sql);
-        $pre->execute();
-        return $pre->fetchAll(PDO::FETCH_OBJ);
-    }
-
-    public function findFirst($req){
-        return current($this->findWithCondition($req));
-    }
-
-    public function findCount($conditions){
-        $res = $this->findFirst(array(
-            'fields' => 'COUNT(*) as count',
-            'conditions' => $conditions
-        ));
-        return $res->count;
     }
 }
