@@ -27,7 +27,7 @@ class PostsController extends AppController
         if (isset($_GET['pp']) && !empty($_GET['pp']) && ctype_digit($_GET['pp']) == 1) {
             $perPage = $_GET['pp'];
         }else{
-            $perPage = 10;
+            $perPage = 2;
         }
         $total = $this->Post->postCount();
         $nbPage = ceil($total/$perPage);

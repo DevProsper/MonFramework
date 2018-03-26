@@ -1,17 +1,17 @@
 <div class="row">
-	<div class="col-md-8">
+	<!-- <div class="col-md-8">
 		<form action="" method="get">
 		    <input type="text" name="q">
 		    <button class="btn btn-primary">Sauvegarder</button>
 		</form>
-	</div>
+	</div> -->
 </div>
 <div class="row">
 	<div class="col-md-8">
 		<?php foreach($posts as $post):?>
-	    	<h2><a href="<?= $post->url; ?>"><?= $post['titre'];  ?></a> </h2>
+	    	<h2><a href="index.php?p=posts.show&id=<?= $post['id'] ?>"><?= $post['titre'];  ?></a> </h2>
 	    	<i><b><?= $post['category']; ?></b></i>
-	    	<p><?= $post->extrait; ?></p>
+	    	<p><?= substr($post['contenu'],0,200); ?><a href="index.php?p=posts.show&id=<?= $post['id'] ?>">Voir la suite</a></p>
     	<?php endforeach;?>
 	</div>
 
@@ -20,11 +20,18 @@
             <p><a href="<?= $category->url ?>"><?= $category->nom;  ?></a></p>
         <?php endforeach;?>
 	</div>
-
-	<nav aria-label="Page navigation">
+</div>
+<div class="pagination">
+  <ul>
+    <?php for($i = 1; $i <= $nbPage; $i++): ?>
+    	<li <?php if($i==$current) echo 'class="active"'; ?>><a href="index.php?p=posts.show&p=<?= $i ?>"><?= $i ?></a></li>
+    <?php endfor?>
+  </ul>
+</div>
+<nav aria-label="Page navigation">
 		<ul class="pagination">
 			<li>
-				<a class="<?php if($current == '1'){ echo "disabled";} ?>" href="index.php?page=categories&p=<?php if($current != '1'){echo $current-1;}else{ echo $current;} ?>" aria-label="Previous">
+				<a class="<?php if($current == '1'){ echo "disabled";} ?>" href="index.php?p=posts.show&p=<?php if($current != '1'){echo $current-1;}else{ echo $current;} ?>" aria-label="Previous">
 					<span aria-hidden="true">&laquo;</span>
 				</a>
 			</li>
@@ -32,21 +39,19 @@
 			for ($i=1; $i <= $nbPage ; $i++) {
 				if ($i == $current) {
 					?>
-					<li class="paginate-active"><a href="index.php?page=categories&p=<?= $i ?>"><?= $i ?></a></li>
+					<li class="paginate-active"><a href="index.php?p=posts.show&p=<?= $i ?>"><?= $i ?></a></li>
 					<?php
 				}else{
 					?>
-					<li><a href="index.php?page=categories&p=<?= $i ?>"><?= $i ?></a></li>
+					<li><a href="index.php?p=posts.show&p=<?= $i ?>"><?= $i ?></a></li>
 					<?php
 				}
 			}
 			?>
-
 			<li>
-				<a class="<?php if($current == '1'){ echo "disabled";} ?>" href="index.php?page=categories&p=<?php if($current != $nbPage){echo $current+1;}else{ echo $nbPage;} ?>" aria-label="Previous">
+				<a class="<?php if($current == '1'){ echo "disabled";} ?>" href="index.php?p=posts.show&p=<?php if($current != $nbPage){echo $current+1;}else{ echo $nbPage;} ?>" aria-label="Previous">
 					<span aria-hidden="true">&raquo;</span>
 				</a>
 			</li>
 		</ul>
 	</nav>
-</div>

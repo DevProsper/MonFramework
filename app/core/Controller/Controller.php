@@ -28,6 +28,4 @@ class Controller
         $content = ob_get_clean();
         require($this->viewPath . 'template/' . $this->template . '.php');
     }
-
-
 }

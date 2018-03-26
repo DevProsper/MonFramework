@@ -85,9 +85,10 @@ class Table
        return $result;
    }
 
-    public function paginate($offset,$limit){
-        $offset = (int)$offset;
-        $limit = (int)$limit;
-
+    public function tableCount(){
+        $req = $this->db->getPDO()->query("SELECT COUNT(*) AS total FROM {$this->table}");
+        $resultats = $req->fetch();
+        $total = $resultats['total'];
+        return $total;
     }
 }
