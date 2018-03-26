@@ -79,23 +79,15 @@ class Table
         return $this->query("DELETE FROM {$this->table} WHERE id = ?", [$id], true);
     }
 
-    public function searchQuery($query,$field){
-        if(isset($_GET[$query])){
-            $q = $_GET[$query];
-            $s = explode(" ", $q);
-            $sql = $this->db->getPDO()->query("SELECT * FROM " .$this->table);
-            $i = 0;
-            foreach($s as $mot){
-                if(strlen($mot) > 4){
-                    if($i == 0){
-                        $sql .= " WHERE ";
-                    }else{
-                        $sql .= " OR ";
-                    }
-                    $sql .= $field." LIKE '%$mot%'";
-                    $i++;
-                }
-            }
-        }
+   public function gueryPaginate($statment){
+        $req = $this->db->getPDO()->prepare($statment);
+       $result = $req->fetchAll();
+       return $result;
+   }
+
+    public function paginate($offset,$limit){
+        $offset = (int)$offset;
+        $limit = (int)$limit;
+
     }
 }

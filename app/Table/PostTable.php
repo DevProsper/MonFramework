@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Table;
-use App\Core\Database\MysqlDatabase;
 use App\Core\Table\Table;
+use PDO;
 
 /**
  * Created by PhpStorm.
@@ -55,4 +55,26 @@ class PostTable extends Table
         $this->searchQuery($name, 'content');
     }
 
+    public function postCount(){
+        $req = $this->db->getPDO()->query('SELECT COUNT(*) AS total FROM articles');
+        $resultats = $req->fetch();
+        $total = $resultats['total'];
+        return $total;
+    }
+
+    public function paginate($offset,$limit){
+        $offset = (int)$offset;
+        $limit = (int)$limit;
+        $req = $this->db->getPDO()->prepare('
+        SELECT articles.id,articles.titre, articles.contenu,articles.category_id, categories.nom as category,
+        COUNT(*) AS nb_billets FROM articles
+        LEFT JOIN categories
+        ON articles.category_id = categories.id
+        ORDER BY articles.date DESC LIMIT :offset, :limit');
+        $req->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $req->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $req->execute();
+        $result = $req->fetchAll();
+        return $result;
+    }
 }
