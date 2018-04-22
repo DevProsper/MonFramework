@@ -7,8 +7,8 @@
  */
 
 namespace App\Controller;
-use App\Core\Html\BootstrapForm;
-use App\Core\Auth\DBAuth;
+use Core\Html\BootstrapForm;
+use Core\Auth\DBAuth;
 use \App;
 
 class UsersController extends AppController

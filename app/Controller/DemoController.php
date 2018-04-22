@@ -9,7 +9,7 @@
 namespace App\Controller;
 
 
-use App\Core\Database\QueryBuilder;
+use Core\Database\QueryBuilder;
 
 class DemoController extends AppController
 {

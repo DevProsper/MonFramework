@@ -3,7 +3,8 @@
     "description": "Framework PHP avec mise en place des design patern comme Singleton,MVC ect.",
     "autoload" : {
     	"psr-4" : {
-    		"App\\" : "app/"
+    		"App\\" : "app/",
+            "Core\\" : "core/"
     	}
     },
     "authors": [

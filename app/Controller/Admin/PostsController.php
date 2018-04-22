@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller\Admin;
-use App\Core\Html\BootstrapForm;
-use App\Core\Session\Session;
+use Core\Html\BootstrapForm;
+use Core\Session\Session;
 
 /**
  * Created by PhpStorm.

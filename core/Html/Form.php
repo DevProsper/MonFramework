@@ -1,5 +1,5 @@
 <?php
-namespace App\Core\Html;
+namespace Core\Html;
 /**
  * Created by PhpStorm.
  * User: DevProsper

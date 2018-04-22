@@ -1,6 +1,6 @@
 <?php
-namespace App\Core\Auth;
-use App\Core\Database\Database;
+namespace Core\Auth;
+use Core\Database\Database;
 
 /**
  * Created by PhpStorm.

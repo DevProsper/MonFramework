@@ -1,6 +1,6 @@
 <?php
-use App\Core\Config;
-use App\Core\Database\MysqlDatabase;
+use Core\Config;
+use Core\Database\MysqlDatabase;
 
 /**
  * Created by PhpStorm.

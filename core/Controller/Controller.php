@@ -1,5 +1,5 @@
 <?php
-namespace App\Core\Controller;
+namespace Core\Controller;
 /**
  * Created by PhpStorm.
  * User: DevProsper

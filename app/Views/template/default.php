@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  
+
 <!-- Mirrored from getbootstrap.com/examples/starter-template/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 05 Jan 2017 10:25:30 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 <head>
@@ -13,7 +13,9 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title><?= App::getInstance()->title;  ?></title>
+    <title><?php use Core\Session\Session;
+
+        App::getInstance()->title;  ?></title>
 
     <!-- Bootstrap core CSS -->
     <link href="../public/css/style.css" rel="stylesheet">
@@ -54,7 +56,7 @@
     </style>
 
     <div class="container cont">
-        <?= \App\Core\Session\Session::flash(); ?>
+        <?= Session::flash(); ?>
       <div class="starter-template">
         <?= $content; ?>
       </div>

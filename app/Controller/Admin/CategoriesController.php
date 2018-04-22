@@ -1,6 +1,6 @@
 <?php
 namespace App\Controller\Admin;
-use App\Core\Html\BootstrapForm;
+use Core\Html\BootstrapForm;
 
 /**
  * Created by PhpStorm.

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Table;
-use App\Core\Table\Table;
+use Core\Table\Table;
 
 /**
  * Created by PhpStorm.

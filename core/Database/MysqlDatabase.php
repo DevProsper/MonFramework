@@ -1,5 +1,5 @@
 <?php
-namespace App\Core\Database;
+namespace Core\Database;
 use \PDO;
 /**
  * Created by PhpStorm.

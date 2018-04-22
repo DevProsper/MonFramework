@@ -6,7 +6,7 @@
  * Time: 13:45
  */
 
-namespace App\Core\Database;
+namespace Core\Database;
 
 
 class QueryBuilder

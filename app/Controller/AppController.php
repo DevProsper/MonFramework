@@ -1,6 +1,6 @@
 <?php
 namespace App\Controller;
-use App\Core\Controller\Controller;
+use Core\Controller\Controller;
 use \App;
 /**
  * Created by PhpStorm.

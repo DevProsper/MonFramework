@@ -1,5 +1,5 @@
 <?php
-namespace App\Core\Entity;
+namespace Core\Entity;
 /**
  * Created by PhpStorm.
  * User: DevProsper

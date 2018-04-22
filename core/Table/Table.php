@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Core\Table;
-use App\Core\Database\MysqlDatabase;
+namespace Core\Table;
+use Core\Database\MysqlDatabase;
 use PDO;
 
 /**
@@ -90,5 +90,60 @@ class Table
         $resultats = $req->fetch();
         $total = $resultats['total'];
         return $total;
+    }
+
+    public function findWithCondition($req){
+        $sql = 'SELECT ';
+
+        if (isset($req['fields'])) {
+            if (is_array($req['fields'])) {
+                $sql .= implode(', ', $req['fields']);
+            }else{
+                $cond = $this->table.'.';
+                $sql .=  $cond.$req['fields'];
+            }
+        }else{
+            $sql .= '*';
+        }
+
+        $sql .= ' FROM ' . $this->table;
+
+        //Pour les jointures
+        if(isset($req['join'])){
+            if (isset($req['join']['table']) && isset($req['join']['fields']) 
+                && isset($req['join']['mode'])) {
+                $sql .= ' '.$req['join']['mode']. ' ' .$req['join']['table']. ' ON '
+            .$this->table. '.'.$req['join']['fields'][0]. '=' .$req['join']['table']. '.'
+            .$req['join']['fields'][1];
+            }
+        }
+        echo $sql;
+        //Construction de la condition
+        if (isset($req['conditions'])) {
+            $sql .= ' WHERE ';
+            if (!is_array($req['conditions'])) {
+                $sql .= $req['conditions'];
+            }else{
+                $cond = array();
+                foreach ($req['conditions'] as $k => $v) {
+                    if (!is_numeric($v)) {
+                        $v = '"'.mysql_real_escape_string($v).'"';
+                    }
+                    $cond[] = "$k=$v";
+                }
+                $sql .= implode(' AND ', $cond);
+            }
+        }
+
+        if (isset($req['limit'])) {
+            $sql .= 'LIMIT ' .$req['limit'];
+        }
+        $pre = $this->db->getPDO()->prepare($sql);
+        $pre->execute();
+        return $pre->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function findFirst($req){
+        return current($this->findWithCondition($req));
     }
 }

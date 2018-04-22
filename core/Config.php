@@ -6,7 +6,7 @@
  * Time: 17:31
  */
 
-namespace App\Core;
+namespace Core;
 
 
 class Config

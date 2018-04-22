@@ -1,5 +1,5 @@
 <?php
-namespace App\Core\Session;
+namespace Core\Session;
 /**
  * Created by PhpStorm.
  * User: DevProsper

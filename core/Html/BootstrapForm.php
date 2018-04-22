@@ -6,7 +6,7 @@
  * Time: 22:55
  */
 
-namespace App\Core\Html;
+namespace Core\Html;
 
 
 class BootstrapForm extends Form

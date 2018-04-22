@@ -2,7 +2,7 @@
 
 use App\Controller\PostsController;
 use App\Controller\UsersController;
-use App\Core\Session\Session;
+use Core\Session\Session;
 
 define('ROOT', dirname(__DIR__));
 require ROOT . '/config/ConfigTest.php';
@@ -24,9 +24,12 @@ if ($page[0] == 'admin') {
 }
 $controller = new $controller();
 $controller->$action();*/
-if ($page === 'home') {
+/*if ($page === 'home') {
 	$controller = new PostsController();
 	$controller->test();
+}*/if ($page === 'home') {
+	$controller = new PostsController();
+	$controller->test2();
 }elseif($page === 'posts.category'){
 	$controller = new PostsController();
 	$controller->category();

@@ -23,6 +23,22 @@ class PostsController extends AppController
         $this->render('posts.index', compact('posts', 'categories'));
     }
 
+    public function test2(){
+        $fields = array('fields_table' => array('category_id', 'id'));
+        $conditions = array('online'=> 1,'type'=>'post');
+        $posts = $this->Post->findWithCondition(array(
+            'fields' => 'id,titre,contenu','category_id',
+            'join' => array(
+                'table' => 'categories',
+                'mode' => 'JOIN',
+                'fields' => array('category_id', 'id')
+
+            )
+        ));
+        //var_dump($posts);
+        $this->render('posts.index', compact('posts'));
+    }
+
     public function test(){
         if (isset($_GET['pp']) && !empty($_GET['pp']) && ctype_digit($_GET['pp']) == 1) {
             $perPage = $_GET['pp'];

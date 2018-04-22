@@ -8,7 +8,7 @@ namespace App\Controller\Admin;
  */
 
 use \App;
-use App\Core\Auth\DBAuth;
+use Core\Auth\DBAuth;
 
 class AdminAppController extends \App\Controller\AppController
 {
