@@ -6,7 +6,7 @@ use PDO;
 
 /**
  * Created by PhpStorm.
- * User: DevProsper
+ * Users: DevProsper
  * Date: 12/03/2018
  * Time: 18:17
  */
@@ -100,7 +100,7 @@ class Table
                 $sql .= implode(', ', $req['fields']);
             }else{
                 $cond = $this->table.'.';
-                $sql .=  $cond.$req['fields'];
+                $sql .= $cond.$req['fields'];
             }
         }else{
             $sql .= '*';

@@ -5,7 +5,7 @@ use Core\Session\Session;
 
 /**
  * Created by PhpStorm.
- * User: DevProsper
+ * Users: DevProsper
  * Date: 15/03/2018
  * Time: 12:37
  */

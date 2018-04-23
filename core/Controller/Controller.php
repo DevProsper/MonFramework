@@ -2,7 +2,7 @@
 namespace Core\Controller;
 /**
  * Created by PhpStorm.
- * User: DevProsper
+ * Users: DevProsper
  * Date: 15/03/2018
  * Time: 11:41
  */

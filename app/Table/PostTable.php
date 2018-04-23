@@ -6,7 +6,7 @@ use PDO;
 
 /**
  * Created by PhpStorm.
- * User: DevProsper
+ * Users: DevProsper
  * Date: 12/03/2018
  * Time: 18:17
  */

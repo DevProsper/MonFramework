@@ -2,7 +2,7 @@
 namespace Core\Session;
 /**
  * Created by PhpStorm.
- * User: DevProsper
+ * Users: DevProsper
  * Date: 17/03/2018
  * Time: 21:07
  */

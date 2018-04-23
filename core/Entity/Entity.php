@@ -2,7 +2,7 @@
 namespace Core\Entity;
 /**
  * Created by PhpStorm.
- * User: DevProsper
+ * Users: DevProsper
  * Date: 13/03/2018
  * Time: 11:57
  */

@@ -2,7 +2,6 @@
 
 use App\Controller\PostsController;
 use App\Controller\UsersController;
-use Core\Session\Session;
 
 define('ROOT', dirname(__DIR__));
 require ROOT . '/config/ConfigTest.php';

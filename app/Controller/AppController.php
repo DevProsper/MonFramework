@@ -4,7 +4,7 @@ use Core\Controller\Controller;
 use \App;
 /**
  * Created by PhpStorm.
- * User: DevProsper
+ * Users: DevProsper
  * Date: 15/03/2018
  * Time: 11:42
  */
@@ -31,8 +31,8 @@ class AppController extends Controller
         die('Page introuvable');
     }
 
-    public function redirect($path){
-        header('Location : index.php?p=' .$path);
+    public function redirect(){
+        header("Location : index.php?p=login");
     }
 
 }
