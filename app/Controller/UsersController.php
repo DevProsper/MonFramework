@@ -7,7 +7,7 @@
  */
 
 namespace App\Controller;
-use App\Controller\Repository\UserRepository;
+use App\Table\Repository\UserRepository;
 use Core\Html\BootstrapForm;
 use Core\Auth\DBAuth;
 use \App;
@@ -23,6 +23,11 @@ class UsersController extends AppController
         parent::__construct();
         $this->loadModel('User');
         $this->repository = new UserRepository();
+    }
+
+    public function register(){
+        $form = new BootstrapForm($_POST);
+        $this->render('users.register', compact('form'));
     }
 
     public function login(){
@@ -51,11 +56,15 @@ class UsersController extends AppController
 
     public function forgetPassword(){
 
+        $form = new BootstrapForm($_POST);
+        $this->render('users.forget', compact('form'));
     }
 
     public function resetPassword(){
 
     }
 
-    public function remenberToken(){}
+    public function remenberToken(){
+
+    }
 }

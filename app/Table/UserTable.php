@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Table;
+use App\Table\Repository\UserRepository;
 use Core\Table\Table;
 
 /**
@@ -12,4 +13,18 @@ use Core\Table\Table;
 class UserTable extends Table
 {
     protected $table = "users";
+
+    public function hydrate(UserRepository $repository, $data){
+        $repository->setName($data['name']);
+        $repository->setConfirmationToken($data['confirmation_token']);
+        $repository->setConfirmedAt($data['confirmed_at']);
+        $repository->setEmail($data['email']);
+        $repository->setPassword($data['password']);
+        $repository->setPhone($data['phone']);
+        $repository->setRemenber($data['remenber']);
+        $repository->setResetAt($data['reset_at']);
+        $repository->setResetToken($data['reset_token']);
+        $repository->setRole($data['role']);
+        return $repository;
+    }
 }

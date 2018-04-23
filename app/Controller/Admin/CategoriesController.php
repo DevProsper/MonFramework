@@ -21,6 +21,7 @@ class CategoriesController extends AdminAppController
     }
 
     public function add(){
+        $errors = [];
         if(!empty($_POST)){
             $result = $this->Category->create([
                 'nom' => $_POST['nom']
