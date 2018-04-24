@@ -1,6 +1,7 @@
 <?php
 
 namespace Core\Table;
+use App\Table\Repository\ModelRepository;
 use Core\Database\MysqlDatabase;
 use PDO;
 

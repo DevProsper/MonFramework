@@ -14,17 +14,27 @@ class UserTable extends Table
 {
     protected $table = "users";
 
-    public function hydrate(UserRepository $repository, $data){
+    /**
+     * Créer un utilisateur
+     * @param UserRepository $repository
+     * @return bool
+     */
+    public function createUser(UserRepository $repository): bool{
+        $statement = $this->db->getPDO()->prepare("INSERT INTO users (name,username) VALUES(?,?)");
+        return $statement->execute([
+            $repository->getName(),
+            $repository->getUsername()
+        ]);
+    }
+
+    /**
+     * @param UserRepository $repository
+     * @param array $data
+     * @return UserRepository
+     */
+    public function hydrate(UserRepository $repository, array $data){
         $repository->setName($data['name']);
-        $repository->setConfirmationToken($data['confirmation_token']);
-        $repository->setConfirmedAt($data['confirmed_at']);
-        $repository->setEmail($data['email']);
-        $repository->setPassword($data['password']);
-        $repository->setPhone($data['phone']);
-        $repository->setRemenber($data['remenber']);
-        $repository->setResetAt($data['reset_at']);
-        $repository->setResetToken($data['reset_token']);
-        $repository->setRole($data['role']);
+        $repository->setUsername($data['username']);
         return $repository;
     }
 }

@@ -5,7 +5,6 @@
  * Date: 15/03/2018
  * Time: 12:54
  */
-
 namespace App\Controller;
 use App\Table\Repository\UserRepository;
 use Core\Html\BootstrapForm;
@@ -26,8 +25,20 @@ class UsersController extends AppController
     }
 
     public function register(){
+        $errors = [];
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $data = $_POST;
+            $validator = new App\Validator\UserValidator();
+            $errors = $validator->validates($data);
+            if(empty($errors)){
+                $user = $this->User->hydrate(new UserRepository(), $data);
+                $this->User->createUser($user);
+                    //header('Location: index.php?p=users.forget');
+                exit();
+            }
+        }
         $form = new BootstrapForm($_POST);
-        $this->render('users.register', compact('form'));
+        $this->render('users.register', compact('form','errors', 'data'));
     }
 
     public function login(){

@@ -1,12 +1,17 @@
 <h1>Enregistrement de l'utilisateur</h1>
-
-
+<?php if (!empty($errors)): ?>
+		<div class="alert alert-danger">
+			Merci de corriger vos erreurs :)
+		</div>
+	<?php endif ?>
 <form action="" method="post">
-    <?= $form->input('username', 'Pseudo'); ?>
-    <?= $form->input('name', 'Votre nom'); ?>
-    <?= $form->input('phone', 'Numéro de téléphone'); ?>
-    <?= $form->input('email', 'Votre Email'); ?>
-    <?= $form->input('role', 'Votre role'); ?>
-    <?= $form->input('password', 'Mot de passe', ['type' => 'password']); ?>
+	<?= $form->input('name', 'Pseudo'); ?>
+	<?php if (isset($errors['name'])): ?>
+		<p class="help-block"><?= $errors['name']; ?></p>
+	<?php endif; ?>
+	<?= $form->input('username', 'username'); ?>
+	<?php if (isset($errors['username'])): ?>
+		<p class="help-block"><?= $errors['username']; ?></p>
+	<?php endif; ?>
     <button type="submit" class="btn btn-primary">Envoyer</button>
 </form>

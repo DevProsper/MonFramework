@@ -13,7 +13,6 @@ class BootstrapForm extends Form
 {
 
     public $errors = [];
-    public $data;
 
     protected function surround($html){
         return "<div class=\"form-group\">{$html}</div>";
@@ -24,13 +23,18 @@ class BootstrapForm extends Form
         $type = isset($options['type']) ? $options['type'] : 'text';
         if($type === 'textarea'){
             $input = '<textarea name="'.$name.'" class="form-control">' .$this->getValue($name).'</textarea>';
+            if (isset($errors[$name])) {
+                ?>
+                    <p class="help-block"><?= $errors[$name]; ?></p>
+                <?php
+            }
         }else{
             $input = '<input type="'.$type.'" name="'.$name.'" value="'.$this->getValue($name).'" class="form-control">';
-        }
-        if (isset($errors[$name])) {
-            ?>
-            <p class="help-block"><?= $errors[$name]; ?></p>
-            <?php
+            if (isset($errors[$name])) {
+                ?>
+                    <p class="help-block"><?= $errors[$name]; ?></p>
+                <?php
+            }
         }
         return $this->surround($label . $input);
     }

@@ -32,7 +32,7 @@ class AppController extends Controller
     }
 
     public function redirect(){
-        header("Location : index.php?p=login");
+        header("Location: index.php?p=login");
     }
 
 }
