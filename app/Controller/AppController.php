@@ -1,5 +1,6 @@
 <?php
 namespace App\Controller;
+use Core\Auth\DBAuth;
 use Core\Controller\Controller;
 use \App;
 /**
@@ -11,9 +12,11 @@ use \App;
 class AppController extends Controller
 {
     protected $template = 'default';
+    private $auth;
 
     public function __construct(){
         $this->viewPath = ROOT . '/app/Views/';
+        $this->auth = new DBAuth(App::getInstance()->getDB());
     }
 
     protected function loadModel($model_name){
@@ -33,6 +36,12 @@ class AppController extends Controller
 
     public function redirect(){
         header("Location: index.php?p=login");
+    }
+
+    public function isLogged(){
+        if($this->auth->logged()){
+            header('Location:index.php?p=admin.posts.index');
+        }
     }
 
 }

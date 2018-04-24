@@ -18,10 +18,13 @@ class UsersController extends AppController
      */
     private $repository;
 
+    private $auth;
+
     public function __construct(){
         parent::__construct();
         $this->loadModel('User');
         $this->repository = new UserRepository();
+        $this->auth = new DBAuth(App::getInstance()->getDB());
     }
 
     public function register(){
@@ -43,16 +46,15 @@ class UsersController extends AppController
 
     public function login(){
         $errors = false;
-        $auth = new DBAuth(App::getInstance()->getDB());
         if (!empty($_POST)) {
-            if($auth->login($_POST['username'], $_POST['password'])){
+            if($this->auth->login($_POST['username'], $_POST['password'])){
                 header('Location: index.php?p=admin.posts.index');
             }else{
                 $errors = true;
             }
         }
-        if($auth->logged()){
-            header('Location:index.php?p=admin.posts.index');
+        if($this->auth->logged()){
+            return $this->isLogged();
         }
         $form = new BootstrapForm($_POST);
 
@@ -66,7 +68,17 @@ class UsersController extends AppController
     }
 
     public function forgetPassword(){
-
+        if (!empty($_POST)) {
+            if($this->auth->forgetPassword($_POST['email'])){
+                //Envoie l'email de réinitialisation
+                die("Ok");
+            }else{
+                die("Non");
+            }
+        }
+        if($this->auth->logged()){
+            return $this->isLogged();
+        }
         $form = new BootstrapForm($_POST);
         $this->render('users.forget', compact('form'));
     }

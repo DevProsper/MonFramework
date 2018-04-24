@@ -35,6 +35,33 @@ class UserTable extends Table
     public function hydrate(UserRepository $repository, array $data){
         $repository->setName($data['name']);
         $repository->setUsername($data['username']);
+        $repository->setUsername($data['email']);
         return $repository;
+    }
+
+    /**
+     * Modification de l'événement un événement
+     * @param UserRepository $repository
+     * @return bool
+     * @internal param Event $event
+     */
+    public function updateUser(UserRepository $repository): bool{
+        $statement = $this->db->getPDO()->prepare("UPDATE users SET name = ?,username = ? WHERE id= ?");
+        return $statement->execute([
+            $repository->getName(),
+            $repository->getUsername(),
+            $repository->getId()
+        ]);
+    }
+
+    public function getUserByEmail(UserRepository $repository){
+        $req = $this->db->getPDO()->prepare("SELECT * FROM users WHERE email = ?");
+        $req->execute([$repository->getEmail()]);
+        return $user = $req->fetch();
+    }
+
+    public function updateResetPassword(UserRepository $repository, int $id){
+        $req = $this->db->getPDO()->prepare("UPDATE users SET reset_token = ?, reset_at = NOW() WHERE id = $id");
+        return $req->execute([$repository->getResetToken(), $repository->getId()]);
     }
 }

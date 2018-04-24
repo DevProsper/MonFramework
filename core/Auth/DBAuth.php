@@ -2,7 +2,6 @@
 namespace Core\Auth;
 use Core\Database\Database;
 use Core\Database\MysqlDatabase;
-use PDO;
 
 /**
  * Created by PhpStorm.
@@ -58,22 +57,13 @@ class DBAuth
         return false;
     }
 
-
-    public function forgetPassword(){
-
-    }
-
-    public function resetPassword(){
-
-    }
-
-    public function remenberToken(){}
-
-    public function is_admin(){
-
-    }
-
-    public function is_modo(){
-
+    public function forgetPassword($email){
+        $user = $this->db->prepare("SELECT * FROM users WHERE  email = ?", [$email], null, true);
+        if($user){
+            if($user->email === $email){
+                return true;
+            }
+        }
+        return false;
     }
 }
