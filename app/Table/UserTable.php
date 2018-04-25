@@ -54,14 +54,22 @@ class UserTable extends Table
         ]);
     }
 
+    /**
+     * @param UserRepository $repository
+     * @return mixed
+     */
     public function getUserByEmail(UserRepository $repository){
         $req = $this->db->getPDO()->prepare("SELECT * FROM users WHERE email = ?");
         $req->execute([$repository->getEmail()]);
         return $user = $req->fetch();
     }
 
-    public function updateResetPassword(UserRepository $repository, int $id){
-        $req = $this->db->getPDO()->prepare("UPDATE users SET reset_token = ?, reset_at = NOW() WHERE id = $id");
-        return $req->execute([$repository->getResetToken(), $repository->getId()]);
+    /**
+     * @param $reset_token
+     * @return bool
+     */
+    public function updateResetPassword($reset_token){
+        $req = $this->db->getPDO()->prepare("UPDATE users SET reset_token = ?, reset_at = NOW() WHERE id = ?");
+        return $req->execute([$reset_token]);
     }
 }

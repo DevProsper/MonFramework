@@ -47,7 +47,7 @@ class UsersController extends AppController
     public function login(){
         $errors = false;
         if (!empty($_POST)) {
-            if($this->auth->login($_POST['username'], $_POST['password'])){
+            if($this->auth->login($_POST['email'], $_POST['password'])){
                 header('Location: index.php?p=admin.posts.index');
             }else{
                 $errors = true;
@@ -70,10 +70,7 @@ class UsersController extends AppController
     public function forgetPassword(){
         if (!empty($_POST)) {
             if($this->auth->forgetPassword($_POST['email'])){
-                //Envoie l'email de réinitialisation
-                die("Ok");
-            }else{
-                die("Non");
+                $this->redirectHome();
             }
         }
         if($this->auth->logged()){
@@ -84,7 +81,17 @@ class UsersController extends AppController
     }
 
     public function resetPassword(){
-
+        if(!empty($_POST)){
+            $pass = $this->auth->resetPassword($_GET['id'], $_GET['token'],$_POST['password'],$_POST['paswword_confirm']);
+            if($pass){
+                echo "Ok";
+            }
+        }
+        if($this->auth->logged()){
+            return $this->isLogged();
+        }
+        $form = new BootstrapForm($_POST);
+        $this->render('users.reset', compact('form'));
     }
 
     public function remenberToken(){

@@ -1,7 +1,6 @@
 <?php
 namespace App\Controller;
 
-
 /**
  * Created by PhpStorm.
  * Users: DevProsper

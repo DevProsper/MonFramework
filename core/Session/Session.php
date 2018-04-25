@@ -8,8 +8,8 @@ namespace Core\Session;
  */
 class  Session
 {
-
     public static function setFlash($message, $type = 'success'){
+        new Session();
         $_SESSION['Flash']['message'] = $message;
         $_SESSION['Flash']['type'] = $type;
     }
@@ -19,6 +19,12 @@ class  Session
             extract($_SESSION['Flash']);
             unset($_SESSION['Flash']);
             return "<div class='alert alert-$type'>$message</div>";
+        }
+    }
+
+    public static function getSession(){
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
         }
     }
 }

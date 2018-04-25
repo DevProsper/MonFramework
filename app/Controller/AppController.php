@@ -34,8 +34,8 @@ class AppController extends Controller
         die('Page introuvable');
     }
 
-    public function redirect(){
-        header("Location: index.php?p=login");
+    public function redirectHome(){
+        header("Location: " .ROOT. "/public/index.php?p=home");
     }
 
     public function isLogged(){
@@ -43,5 +43,4 @@ class AppController extends Controller
             header('Location:index.php?p=admin.posts.index');
         }
     }
-
 }

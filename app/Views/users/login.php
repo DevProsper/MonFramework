@@ -1,5 +1,6 @@
+<h1>Connection de l'utilisateur</h1>
 <form action="" method="post">
-	<?= $form->input('username', 'Pseudo'); ?>
+	<?= $form->input('email', 'Adresse email'); ?>
 
 	<?= $form->input('password', 'Mot de passe', ['type' => 'password']); ?>
     <div class="form-group">

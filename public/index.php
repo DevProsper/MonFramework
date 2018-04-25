@@ -63,6 +63,7 @@ switch($page){
 		$controller = new UsersController();
 		$controller->logout();
 		break;
+	//GESTION DES UTILISATEURS
 	case 'users.forget':
 		$controller = new UsersController();
 		$controller->forgetPassword();
@@ -70,6 +71,14 @@ switch($page){
 	case 'users.register':
 		$controller = new UsersController();
 		$controller->register();
+		break;
+	case 'users.register':
+		$controller = new UsersController();
+		$controller->register();
+		break;
+	case 'users.reset':
+		$controller = new UsersController();
+		$controller->resetPassword();
 		break;
 	default:
 		$controller = new \App\Controller\AppController();
