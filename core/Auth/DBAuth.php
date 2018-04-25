@@ -39,14 +39,22 @@ class DBAuth
         return false;
     }
 
-    public function login($email, $password){
+    public function login($email, $password,$remenber = null){
         $user = $this->db->prepare('SELECT * FROM users WHERE email = ?', [$email], null, true);
         //$user = $req->fetch();
         if($user){
             if($user->password === sha1($password)){
                 $_SESSION['auth'] = $user->id;
-                return true;
+                if ($remenber){
+                    $remenber_token = str_random(250);
+                    $req = $this->db->getPDO()->prepare("UPDATE users SET remenber = ? WHERE id = ?");
+                    $req->execute([$remenber_token, $user->id]);
+                    setcookie('remenber', $user->id . '==' . $remenber_token . sha1($user->id . 'ratonvaleurs')
+                        , time() + 60 * 60 * 24* 7);
+                }
+
             }
+            return true;
         }
         return false;
     }
@@ -98,22 +106,29 @@ class DBAuth
         }
     }
 
-    public function idUser($email){
-        $user = $this->db->prepare("SELECT * FROM users WHERE  email = ?", [$email], null, true);
-        if($user){
-            if($user->email === $email){
-                return $user->id;
+    public function reconnect_from_cookie(){
+        Session::getSession();
+        if (isset($_COOKIE['remenber'])) {
+            $remenber_token = $_COOKIE['remenber'];
+            $parts = explode('==', $remenber_token);
+            $user_id = $parts[0];
+            $req = $this->db->getPDO()->prepare("SELECT * FROM users WHERE id = ?");
+            $req->execute([$user_id]);
+            $user = $req->fetch();
+            if ($user) {
+                $expected = $user->id . '==' . $user->remenber . sha1($user->id . 'ratonvaleurs');
+                if ($expected == $remenber_token) {
+                    Session::getSession();
+                    $_SESSION['auth'] = $user->id;
+                    //Reconstruit le cookie
+                    setcookie('remenber', $remenber_token, time() + 60 * 60 * 24 * 7);
+                }else {
+                    setcookie('remenber', NULL, -1);
+                }
+            }else {
+                setcookie('remenber', NULL, -1);
             }
         }
-        return false;
     }
 
-    public function getAuthUser(){
-        $req = $this->db->getPDO()->prepare("SELECT * FROM users");
-        $user = $req->fetch();
-        if($this->logged() === $user->id){
-            return $user;
-        }
-        return "Cet Utilisateur n'existe pas";
-    }
 }

@@ -25,6 +25,7 @@ class UsersController extends AppController
         $this->loadModel('User');
         $this->repository = new UserRepository();
         $this->auth = new DBAuth(App::getInstance()->getDB());
+        $this->auth->reconnect_from_cookie();
     }
 
     public function register(){
@@ -47,7 +48,7 @@ class UsersController extends AppController
     public function login(){
         $errors = false;
         if (!empty($_POST)) {
-            if($this->auth->login($_POST['email'], $_POST['password'])){
+            if($this->auth->login($_POST['email'], $_POST['password'],$_POST['remenber'])){
                 header('Location: index.php?p=admin.posts.index');
             }else{
                 $errors = true;

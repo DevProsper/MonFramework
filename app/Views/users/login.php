@@ -8,7 +8,7 @@
     </div>
     <div class="form-group">
         <label for="remenber">
-            <input type="checkbox" name="remenber" value="1"/> Se souvenir de moi
+            <input type="checkbox" name="remenber"/> Se souvenir de moi
         </label>
     </div>
 	<button type="submit" class="btn btn-primary">Envoyer</button>
