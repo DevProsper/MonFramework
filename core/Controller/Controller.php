@@ -8,12 +8,19 @@ namespace Core\Controller;
  */
 class Controller
 {
+    /**
+     * Chemin du fichier renvoyer par le controller
+     */
     protected $viewPath;
+
+    /**
+     * Template qui sera utilisé dans la vue
+     */
     protected $template;
 
     /**
      * Permet de passer les variables à la vue
-     **/
+     */
     public $vars = array();
 
     /**

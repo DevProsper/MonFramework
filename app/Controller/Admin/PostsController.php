@@ -62,7 +62,7 @@ class PostsController extends AdminAppController
         if(!empty($_POST)){
             $this->Post->delete($_POST['id']);
             Session::setFlash("Ce post a bien été modifié", "success");
-            return $this->index();
+            $this->index();
         }
     }
 }

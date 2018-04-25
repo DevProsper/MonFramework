@@ -14,17 +14,30 @@ class DBAuth
 {
 
     /**
+     * Initialisation de la base de donnée
      * @var Database
      */
     private $db;
 
+    /**
+     * Initialisation de la base de la classe DBAuth
+     * @var DBAuth
+     */
     private static $_instance;
 
+
+    /**
+     * @param MysqlDatabase|null $db
+     */
     public function __construct(MysqlDatabase $db =  null){
         $this->db = $db;
     }
 
 
+    /**
+     * Obtenir une instance de la classe DBAuth
+     * @return DBAuth
+     */
     public static function getInstance(){
         if(is_null(self::$_instance)){
             self::$_instance = new DBAuth();
@@ -39,6 +52,14 @@ class DBAuth
         return false;
     }
 
+    /**
+     * Authentification de l'utlisateur avec un $email et son $password
+     * Si la variable $remenber est renseigner dans notre controller, l'authenification sera persisté dans le cookies
+     * @param $email
+     * @param $password
+     * @param null $remenber
+     * @return bool
+     */
     public function login($email, $password,$remenber = null){
         $user = $this->db->prepare('SELECT * FROM users WHERE email = ?', [$email], null, true);
         //$user = $req->fetch();
@@ -59,6 +80,10 @@ class DBAuth
         return false;
     }
 
+    /**
+     * Verifie si la session existe
+     * @return bool
+     */
     public function logged(){
         if(isset($_SESSION['auth'])){
             return true;
@@ -66,6 +91,12 @@ class DBAuth
         return false;
     }
 
+    /**
+     * Simple et efficace pour géré le système de rappelle de mot de passse
+     * Un email sera envoyer à l'utilisateur et le rédirigera vers la page de réinitialisation du mot de passe
+     * @param $email
+     * @return bool
+     */
     public function forgetPassword($email){
         $user = $this->db->prepare("SELECT * FROM users WHERE  email = ?", [$email], null, true);
         if($user){
@@ -83,6 +114,13 @@ class DBAuth
         return false;
     }
 
+    /**
+     * Permet à réinitialiser le mot de passe de l'utilisateur
+     * @param $id
+     * @param $token
+     * @param $password
+     * @param $password_confirm
+     */
     public function resetPassword($id, $token,$password, $password_confirm){
         if(isset($id) && isset($token)){
             $req = $this->db->getPDO()->prepare("SELECT * FROM users WHERE id = ? AND reset_token IS NOT NULL AND reset_token = ?
@@ -106,6 +144,9 @@ class DBAuth
         }
     }
 
+    /**
+     *Verifie si la cookie existe et évite l'utilisateur de se connecté à nouveau
+     */
     public function reconnect_from_cookie(){
         Session::getSession();
         if (isset($_COOKIE['remenber'])) {

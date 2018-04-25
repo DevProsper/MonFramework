@@ -13,7 +13,16 @@ use PDO;
  */
 class Table
 {
+    /**
+     * Table qui sera renseigner dans le model
+     * @var $table
+     */
     protected $table;
+
+    /**
+     * Initialisation de la base de donnée
+     * @var MysqlDatabase
+     */
     protected $db;
 
     public function __construct(MysqlDatabase $db){
@@ -25,14 +34,29 @@ class Table
         }
     }
 
+    /**
+     * Obtenir toutes les données existant dans une base de donnée
+     * @return array|bool|mixed
+     */
     public function all(){
         return $this->query('SELECT * FROM ' . $this->table);
     }
 
+    /**
+     * Obtenir une donnée à partir de son id
+     * @param $id
+     * @return array|bool|mixed
+     */
     public function find($id){
         return $this->query("SELECT * FROM {$this->table} WHERE id = ?", [$id], true);
     }
 
+    /**
+     * @param $statement
+     * @param null $attributes
+     * @param bool|false $one
+     * @return array|bool|mixed
+     */
     public function query($statement, $attributes = null, $one = false){
         if($attributes){
             return $this->db->prepare(
@@ -45,6 +69,12 @@ class Table
         }
     }
 
+    /**
+     * Sauvegarde dynamique les clés et les valeurs dans un champ select
+     * @param $key
+     * @param $value
+     * @return array
+     */
     public function extract($key, $value){
         $records = $this->all();
         $return = [];
@@ -54,6 +84,12 @@ class Table
         return $return;
     }
 
+    /**
+     * Mise à jour des données à partir de son id
+     * @param $id
+     * @param $fields
+     * @return array|bool|mixed
+     */
     public function update($id, $fields){
         $sql_parts = [];
         $attributes = [];
@@ -65,6 +101,12 @@ class Table
         $sql_part = implode(', ', $sql_parts);
         return $this->query("UPDATE {$this->table} SET $sql_part WHERE id = ?", $attributes, true);
     }
+
+    /**
+     * Sauvegarde les données dans la bdd
+     * @param $fields
+     * @return array|bool|mixed
+     */
     public function create($fields){
         $sql_parts = [];
         $attributes = [];
@@ -76,6 +118,11 @@ class Table
         return $this->query("INSERT INTO {$this->table} SET $sql_part", $attributes, true);
     }
 
+    /**
+     * Supprime une donnée dans la bdd à partir de son id
+     * @param $id
+     * @return array|bool|mixed
+     */
     public function delete($id){
         return $this->query("DELETE FROM {$this->table} WHERE id = ?", [$id], true);
     }
@@ -86,6 +133,10 @@ class Table
        return $result;
    }
 
+    /**
+     * Permet de savoir le nombre de donnée dans une table
+     * @return mixed
+     */
     public function tableCount(){
         $req = $this->db->getPDO()->query("SELECT COUNT(*) AS total FROM {$this->table}");
         $resultats = $req->fetch();
@@ -93,6 +144,11 @@ class Table
         return $total;
     }
 
+    /**
+     * Model de recherhe de donnée à partir des champ précis,les jointures etc
+     * @param $req
+     * @return array
+     */
     public function findWithCondition($req){
         $sql = 'SELECT ';
 
@@ -144,6 +200,12 @@ class Table
         return $pre->fetchAll(PDO::FETCH_OBJ);
     }
 
+
+    /**
+     * Obtnir une seule requette
+     * @param $req
+     * @return mixed
+     */
     public function findFirst($req){
         return current($this->findWithCondition($req));
     }
