@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller\Admin;
 use Core\Html\BootstrapForm;
+use Core\Library\Upload\Upload;
 use Core\Session\Session;
 
 /**
@@ -11,9 +12,9 @@ use Core\Session\Session;
  */
 class PostsController extends AdminAppController
 {
+
     public function __construct(){
         parent::__construct();
-        $this->loadModel('Post');
         $this->loadModel('Category');
     }
 
@@ -24,45 +25,51 @@ class PostsController extends AdminAppController
 
     public function add(){
         if(!empty($_POST)){
+            $files = $_FILES['file_name'];
             $result = $this->Post->create([
                 'titre' => $_POST['titre'],
                 'contenu'  => $_POST['contenu'],
                 'category_id'  => $_POST['category_id']
             ]);
+            $id = $this->db->getPDO()->lastInsertId();
+            $extensions = array('jpg','png','jpeg','JPG','PNG','JPEG');
             if ($result) {
-                //$id = App::getInstance()->getDB()->lastInsertId();
-                //header('Location : admin.php?p=admin.posts.edit&id=' .$id);
+                $this->uploadFile($files, $id,$extensions);
                 return $this->index();
             }
         }
         $categories_list = $this->Category->extract('id', 'nom');
         $form = new BootstrapForm($_POST);
         $this->render('admin.posts.edit', compact('form', 'categories_list'));
+
     }
 
     public function edit(){
         if(!empty($_POST)){
+            $files = $_FILES['file_name'];
             $result = $this->Post->update($_GET['id'],[
                 'titre' => $_POST['titre'],
                 'contenu'  => $_POST['contenu'],
                 'category_id'  => $_POST['category_id']
             ]);
+            $extensions = array('jpg','png','jpeg','JPG');
             if ($result) {
-               return $this->index();
+                $this->uploadFile($files, $_GET['id'],$extensions);
+                return $this->index();
             }
         }
         $post = $this->Post->find($_GET['id']);
         $categories_list = $this->Category->extract('id', 'nom');
         $form = new BootstrapForm($post);
-        Session::setFlash("Ce post a bien été modifié", "success");
+        Session::setFlash("Ce post a bien ï¿½tï¿½ modifiï¿½", "success");
         $this->render('admin.posts.edit', compact('form', 'categories_list'));
     }
 
     public function delete(){
         if(!empty($_POST)){
             $this->Post->delete($_POST['id']);
-            Session::setFlash("Ce post a bien été modifié", "success");
-            $this->index();
+            Session::setFlash("Ce post a bien ï¿½tï¿½ modifiï¿½", "success");
+            return $this->index();
         }
     }
 }

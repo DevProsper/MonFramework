@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,19 +10,14 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
-
-    <title><?php use Core\Session\Session;
-
-        App::getInstance()->title;  ?></title>
+    <script rel="stylesheet" type="text/javascript" src="../public/js/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="../public/css/bootstrap.min.css">
+    <title><?php use Core\Session\Session;App::getInstance()->title;  ?></title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../public/css/style.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
 
@@ -42,9 +36,7 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="<?= ($p === 'home') ? 'active' : ''; ?>"><a href="index.php">Home</a></li>
-            <li class="<?= ($p === 'single') ? 'active' : ''; ?>"><a href="index.php?p=single">Signle</a></li>
-              <li class="<?= ($p === 'logout') ? 'active' : ''; ?>"><a href="index.php?p=logout">Déconnexion</a></li>
+
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -63,7 +55,6 @@
       
     </div><!-- /.container -->
 
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 
 <!-- Mirrored from getbootstrap.com/examples/starter-template/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 05 Jan 2017 10:25:30 GMT -->

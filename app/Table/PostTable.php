@@ -18,7 +18,6 @@ class PostTable extends Table
      * @return array
      */
 
-
     public function last(){
         return $this->query("
             SELECT articles.id, articles.titre, articles.contenu, articles.date,articles.category_id, categories.nom as category
@@ -51,9 +50,21 @@ class PostTable extends Table
           ", [$category_id]);
     }
 
-
     public function postCount(){
         return $this->tableCount();
+    }
+
+    function post_img($tmp_name,$extension){
+        $id = $this->lastInsertId();
+        $image_name = time() + 7 ."post".$id.'.'.$extension;
+        $i = [
+            'id'      => $id,
+            'file_name'   => $image_name
+        ];
+
+        $sql = "UPDATE files SET file_name=:file_name WHERE id= :id";
+        $req = $this->db->getPDO()->prepare($sql);
+        $req->execute($i);
     }
 
     public function paginate($offset,$limit){

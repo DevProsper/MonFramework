@@ -2,14 +2,13 @@
 use App\Controller\PostsController;
 use App\Controller\UsersController;
 define('ROOT', dirname(__DIR__));
-require ROOT . '/config/ConfigTest.php';
 require '../app/App.php';
 require ROOT . '/config/constant.php';
+require ROOT . '/config/images.php';
 App::load();
 if (isset($_GET['p'])) {
 	$page = $_GET['p'];
 }else{
-	//$page = 'posts.index';
 	$page = 'home';
 }
 /*$page = explode('.', $page);
@@ -55,6 +54,10 @@ switch($page){
 		$controller = new \App\Controller\Admin\PostsController();
 		$controller->add();
 		break;
+	case 'admin.categories.add':
+		$controller = new \App\Controller\Admin\CategoriesController();
+		$controller->index();
+		break;
 	case 'admin.posts.delete':
 		$controller = new \App\Controller\Admin\PostsController();
 		$controller->delete();
@@ -85,34 +88,3 @@ switch($page){
 		$controller->notFound();
 		break;
 }
-/*if ($page === 'home') {
-	$controller = new PostsController();
-	$controller->test2();
-}elseif($page === 'posts.category'){
-	$controller = new PostsController();
-	$controller->category();
-}elseif($page === 'posts.show'){
-	$controller = new PostsController();
-	$controller->show();
-}elseif($page === 'login'){
-	$controller = new UsersController();
-	$controller->login();
-}elseif($page === 'admin.posts.index'){
-	$controller = new \App\Controller\Admin\PostsController();
-	$controller->index();
-}elseif($page === 'admin.posts.edit'){
-	$controller = new \App\Controller\Admin\PostsController();
-	$controller->edit();
-}elseif($page === 'admin.posts.add'){
-	$controller = new \App\Controller\Admin\PostsController();
-	$controller->add();
-}elseif($page === 'admin.posts.delete'){
-	$controller = new \App\Controller\Admin\PostsController();
-	$controller->delete();
-}elseif($page === 'logout'){
-	$controller = new UsersController();
-	$controller->logout();
-}elseif($page === 'users.forget'){
-	$controller = new UsersController();
-	$controller->forgetPassword();
-}*/

@@ -13,6 +13,7 @@ use PDO;
  */
 class Table
 {
+    private $lastinsert;
     /**
      * Table qui sera renseigner dans le model
      * @var $table
@@ -115,8 +116,20 @@ class Table
             $attributes[] = $v;
         }
         $sql_part = implode(', ', $sql_parts);
-        return $this->query("INSERT INTO {$this->table} SET $sql_part", $attributes, true);
+        $req = $this->query("INSERT INTO {$this->table} SET $sql_part", $attributes, true);
+        $this->lastinsert = $this->db->getPDO()->lastInsertId();
+        return $req;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getLastinsert()
+    {
+        return $this->lastinsert;
+    }
+
+
 
     /**
      * Supprime une donnée dans la bdd à partir de son id
@@ -208,5 +221,17 @@ class Table
      */
     public function findFirst($req){
         return current($this->findWithCondition($req));
+    }
+
+    /**
+     * Retourne l'id du dernier élément inserer dans la bdd
+     * @return string
+     */
+    public function lastInsertId(){
+        return $this->db->getPDO()->lastInsertId();
+    }
+
+    public function quote($vaulue){
+        $this->db->getPDO()->quote($vaulue);
     }
 }
