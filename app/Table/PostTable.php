@@ -82,4 +82,12 @@ class PostTable extends Table
         $result = $req->fetchAll();
         return $result;
     }
+
+    public function search($search){
+        $sql = "SELECT * FROM articles WHERE titre LIKE " .$search;
+        $req = $this->db->getPDO()->prepare($sql);
+        $req->execute([$search]);
+        $response = $req->fetchAll();
+        return $response;
+    }
 }

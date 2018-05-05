@@ -20,7 +20,16 @@ class PostsController extends AdminAppController
 
     public function index(){
         $posts = $this->Post->all();
-        $this->render('admin.posts.index', compact('posts'));
+        if(isset($_POST['query'])){
+            $query = $_POST['query'];
+            $q = '%'.$query.'%';
+            $sql = "SELECT * FROM articles WHERE titre LIKE '%$query%'";
+            $sql = $this->db->getPDO()->prepare($sql);
+            $sql->execute([$q]);
+            $post = $sql->fetchAll();
+            var_dump($post);
+        }
+        $this->render('admin.posts.index', compact('posts','post'));
     }
 
     public function add(){
@@ -35,7 +44,7 @@ class PostsController extends AdminAppController
             $extensions = array('jpg','png','jpeg','JPG','PNG','JPEG');
             if ($result) {
                 $this->uploadFile($files, $id,$extensions);
-                return $this->index();
+                header("Location: index.php?p=admin.posts.index");
             }
         }
         $categories_list = $this->Category->extract('id', 'nom');
@@ -55,7 +64,7 @@ class PostsController extends AdminAppController
             $extensions = array('jpg','png','jpeg','JPG');
             if ($result) {
                 $this->uploadFile($files, $_GET['id'],$extensions);
-                return $this->index();
+                header("Location: index.php?p=admin.posts.index");
             }
         }
         $post = $this->Post->find($_GET['id']);
@@ -69,7 +78,7 @@ class PostsController extends AdminAppController
         if(!empty($_POST)){
             $this->Post->delete($_POST['id']);
             Session::setFlash("Ce post a bien �t� modifi�", "success");
-            return $this->index();
+            header("Location: index.php?p=admin.posts.index");
         }
     }
 }

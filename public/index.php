@@ -28,7 +28,7 @@ $controller->$action();*/
 switch($page){
 	case 'home':
 		$controller = new PostsController();
-		$controller->test2();
+		$controller->index();
 		break;
 	case 'posts.category':
 		$controller = new PostsController();

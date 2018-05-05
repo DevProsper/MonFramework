@@ -15,6 +15,7 @@
         </form>
 	</div>
 </div>
+
 <table class="table">
 	<thead>
 		<tr>
@@ -24,18 +25,20 @@
 		</tr>
 	</thead>
 	<tbody>
-		<?php foreach ($posts as $post): ?>
-			<tr>
-				<td><?= $post->id ?></td>
-				<td><?= $post->titre ?></td>
-				<td>
-					<a class="btn btn-primary" href="?p=admin.posts.edit&id=<?= $post->id ?>">Editer</a>
-						<form action="?p=admin.posts.delete" style="display: inline;" method="post">
-							<input type="hidden" name="id" value="<?= $post->id ?>">
-							<button type="submit" class="btn btn-danger" onclick="return confirm('Etes vous sur de supprimer ?')">Supprimer</button>
-						</form>
-				</td>
-			</tr>
-		<?php endforeach ?>
+		<?php if (isset($response)): ?>
+			<?php foreach ($posts as $post): ?>
+				<tr>
+					<td><?= $post->id ?></td>
+					<td><?= $post->titre ?></td>
+					<td>
+						<a class="btn btn-primary" href="?p=admin.posts.edit&id=<?= $post->id ?>">Editer</a>
+							<form action="?p=admin.posts.delete" style="display: inline;" method="post">
+								<input type="hidden" name="id" value="<?= $post->id ?>">
+								<button type="submit" class="btn btn-danger" onclick="return confirm('Etes vous sur de supprimer ?')">Supprimer</button>
+							</form>
+					</td>
+				</tr>
+			<?php endforeach ?>
+		<?php endif ?>
 	</tbody>
 </table>
