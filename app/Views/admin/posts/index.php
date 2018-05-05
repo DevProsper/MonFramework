@@ -14,7 +14,10 @@
             </div>
         </form>
 	</div>
-</div>
+</div><br>
+<p>
+	<a href="?p=admin.posts.index.excel" class="btn btn-sm btn-primary">Exporter en excel</a>
+</p>
 <table class="table">
 	<thead>
 		<tr>

@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller\Admin;
 use Core\Html\BootstrapForm;
-use Core\Library\Upload\Upload;
+use Core\Library\Export\ExportDataExcel;
 use Core\Session\Session;
 
 /**
@@ -26,10 +26,20 @@ class PostsController extends AdminAppController
             $sql = "SELECT * FROM articles WHERE titre LIKE '%$query%'";
             $sql = $this->db->getPDO()->prepare($sql);
             $sql->execute([$q]);
+            $count = $sql->rowCount();
+            var_dump($count);
+            echo " Résultats ======================================================";
             $post = $sql->fetchAll();
             var_dump($post);
+            die();
         }
         $this->render('admin.posts.index', compact('posts','post'));
+    }
+
+    public function export(){
+        $data = $this->Post->export();
+        ExportDataExcel::export($data,'Export');
+        //header("Location: index.php?p=admin.posts.index");
     }
 
     public function add(){

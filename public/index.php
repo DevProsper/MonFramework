@@ -46,6 +46,10 @@ switch($page){
 		$controller = new \App\Controller\Admin\PostsController();
 		$controller->index();
 		break;
+	case 'admin.posts.index.excel':
+		$controller = new \App\Controller\Admin\PostsController();
+		$controller->export();
+		break;
 	case 'admin.posts.edit':
 		$controller = new \App\Controller\Admin\PostsController();
 		$controller->edit();
