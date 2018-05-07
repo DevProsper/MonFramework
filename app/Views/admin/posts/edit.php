@@ -10,16 +10,3 @@
     </div>
     <button type="submit" class="btn btn-primary" style="margin-top:10px">Submit</button>
 </form>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $(".btn-success").click(function(){
-            var html = $(".clone").html();
-            $(".increment").after(html);
-        });
-
-        $("body").on("click",".btn-danger",function(){
-            $(this).parents(".control-group").remove();
-        });
-    });
-</script>

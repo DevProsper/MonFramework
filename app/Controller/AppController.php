@@ -63,12 +63,11 @@ class AppController extends Controller
     public function forbidden()
     {
         header('HTTP/1.0 403 Forbidden');
-        die('Acces interdit');
+        $this->redirectLogin();
     }
 
     public function notFound(){
         header('HTTP/1.0 404 Not Found');
-        die('Page introuvable');
     }
 
     public function redirectHome(){
@@ -79,5 +78,9 @@ class AppController extends Controller
         if($this->auth->logged()){
             header('Location:index.php?p=admin.posts.index');
         }
+    }
+
+    public function redirectLogin(){
+        header('Location' .ROOT_WEBSITE.'login.php');
     }
 }

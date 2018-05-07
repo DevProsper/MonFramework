@@ -55,7 +55,7 @@ class UsersController extends AppController
             }
         }
         if($this->auth->logged()){
-            return $this->isLogged();
+             $this->isLogged();
         }
         $form = new BootstrapForm($_POST);
 
@@ -75,7 +75,7 @@ class UsersController extends AppController
             }
         }
         if($this->auth->logged()){
-            return $this->isLogged();
+            $this->isLogged();
         }
         $form = new BootstrapForm($_POST);
         $this->render('users.forget', compact('form'));
@@ -89,7 +89,7 @@ class UsersController extends AppController
             }
         }
         if($this->auth->logged()){
-            return $this->isLogged();
+            $this->isLogged();
         }
         $form = new BootstrapForm($_POST);
         $this->render('users.reset', compact('form'));
@@ -97,5 +97,11 @@ class UsersController extends AppController
 
     public function remenberToken(){
 
+    }
+
+    public function register2()
+    {
+        $form = new BootstrapForm($_POST);
+        $this->render('users.index', compact('form'));
     }
 }

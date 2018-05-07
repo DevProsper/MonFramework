@@ -19,8 +19,8 @@ class UserValidator extends Validator
      */
     public function validates(array $data){
         parent::validates($data);
-        $this->validate('name', 'minLenght',30);
-        $this->validate('username', 'minLenght',10);
+        $this->validate('name', 'minLenght',10);
+        $this->validate('username', 'minLenght',5);
         return $this->errors;
     }
 }

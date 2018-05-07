@@ -1,3 +1,2 @@
 <?php
-$path = ROOT . '/public/files/posts/';
-define("PATH_IMAGE", $path);
+define("PATH_IMAGE", WWW_ROOT .DIRECTORY_SEPARATOR. '/public/files/posts');

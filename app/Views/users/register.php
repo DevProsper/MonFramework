@@ -9,7 +9,7 @@
 	<?php if (isset($errors['name'])): ?>
 		<p class="help-block"><?= $errors['name']; ?></p>
 	<?php endif; ?>
-	<?= $form->input('username', 'username'); ?>
+	<?= $form->input('username', 'Votre prénom'); ?>
 	<?php if (isset($errors['username'])): ?>
 		<p class="help-block"><?= $errors['username']; ?></p>
 	<?php endif; ?>

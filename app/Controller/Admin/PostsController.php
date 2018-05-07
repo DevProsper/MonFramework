@@ -39,7 +39,6 @@ class PostsController extends AdminAppController
     public function export(){
         $data = $this->Post->export();
         ExportDataExcel::export($data,'Export');
-        //header("Location: index.php?p=admin.posts.index");
     }
 
     public function add(){

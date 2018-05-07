@@ -3,8 +3,8 @@ use App\Controller\PostsController;
 use App\Controller\UsersController;
 define('ROOT', dirname(__DIR__));
 require '../app/App.php';
-require ROOT . '/config/constant.php';
-require ROOT . '/config/images.php';
+require '../config/includes.php';
+require ROOT . '/config/includes.php';
 App::load();
 if (isset($_GET['p'])) {
 	$page = $_GET['p'];
@@ -26,6 +26,7 @@ $controller->$action();*/
 	$controller->test();
 }*/
 switch($page){
+	//FRONT END
 	case 'home':
 		$controller = new PostsController();
 		$controller->index();
@@ -38,17 +39,19 @@ switch($page){
 		$controller = new PostsController();
 		$controller->show();
 		break;
+	//AUTHENTIFICATION
 	case 'login':
 		$controller = new UsersController();
 		$controller->login();
 		break;
+	case 'logout':
+		$controller = new UsersController();
+		$controller->logout();
+		break;
+	//GESTION DES POSTS ADMINISTRATION
 	case 'admin.posts.index':
 		$controller = new \App\Controller\Admin\PostsController();
 		$controller->index();
-		break;
-	case 'admin.posts.index.excel':
-		$controller = new \App\Controller\Admin\PostsController();
-		$controller->export();
 		break;
 	case 'admin.posts.edit':
 		$controller = new \App\Controller\Admin\PostsController();
@@ -58,6 +61,12 @@ switch($page){
 		$controller = new \App\Controller\Admin\PostsController();
 		$controller->add();
 		break;
+	//LIBRAIRIE ADMINISTRATION
+	case 'admin.posts.index.excel':
+		$controller = new \App\Controller\Admin\PostsController();
+		$controller->export();
+		break;
+	//GESTION DES CATEGORIES ADMINISTRATION
 	case 'admin.categories.add':
 		$controller = new \App\Controller\Admin\CategoriesController();
 		$controller->index();
@@ -65,10 +74,6 @@ switch($page){
 	case 'admin.posts.delete':
 		$controller = new \App\Controller\Admin\PostsController();
 		$controller->delete();
-		break;
-	case 'logout':
-		$controller = new UsersController();
-		$controller->logout();
 		break;
 	//GESTION DES UTILISATEURS
 	case 'users.forget':
@@ -79,9 +84,9 @@ switch($page){
 		$controller = new UsersController();
 		$controller->register();
 		break;
-	case 'users.register':
+	case 'users.registe':
 		$controller = new UsersController();
-		$controller->register();
+		$controller->register2();
 		break;
 	case 'users.reset':
 		$controller = new UsersController();

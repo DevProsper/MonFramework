@@ -51,7 +51,7 @@ class CategoriesController extends AdminAppController
     public function delete(){
         if(!empty($_POST)){
             $this->Category->delete($_POST['id']);
-            return $this->index();
+            $this->index();
         }
     }
 }
