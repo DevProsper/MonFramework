@@ -26,6 +26,7 @@ class UsersController extends AppController
         $this->repository = new UserRepository();
         $this->auth = new DBAuth(App::getInstance()->getDB());
         $this->auth->reconnect_from_cookie();
+        $this->isLogged();
     }
 
     public function register(){
@@ -41,21 +42,20 @@ class UsersController extends AppController
                 exit();
             }
         }
+
         $form = new BootstrapForm($_POST);
         $this->render('users.register', compact('form','errors', 'data'));
     }
 
+    /**
+     *
+     */
     public function login(){
         $errors = false;
         if (!empty($_POST)) {
-            if($this->auth->login($_POST['email'], $_POST['password'],$_POST['remenber'])){
+            if($this->auth->login($_POST['email'], $_POST['password'])){
                 header('Location: index.php?p=admin.posts.index');
-            }else{
-                $errors = true;
             }
-        }
-        if($this->auth->logged()){
-             $this->isLogged();
         }
         $form = new BootstrapForm($_POST);
 
@@ -65,7 +65,7 @@ class UsersController extends AppController
 
     public function logout(){
         unset($_SESSION['auth']);
-        $this->login();
+        header('Location: index.php?p=login');
     }
 
     public function forgetPassword(){
@@ -74,22 +74,20 @@ class UsersController extends AppController
                 $this->redirectHome();
             }
         }
-        if($this->auth->logged()){
-            $this->isLogged();
-        }
         $form = new BootstrapForm($_POST);
         $this->render('users.forget', compact('form'));
     }
 
     public function resetPassword(){
-        if(!empty($_POST)){
-            $pass = $this->auth->resetPassword($_GET['id'], $_GET['token'],$_POST['password'],$_POST['paswword_confirm']);
-            if($pass){
-                echo "Ok";
+        if(isset($_GET['id']) && isset($_GET['token'])){
+            if(!empty($_POST)){
+                $post  = $this->auth->resetPassword($_GET['id'], $_GET['token'],$_POST['password'],$_POST['paswword_confirm']);
+                if($post){
+                    header('Location: index.php?p=login');
+                }
             }
-        }
-        if($this->auth->logged()){
-            $this->isLogged();
+        }else{
+            header('Location: index.php?p=login');
         }
         $form = new BootstrapForm($_POST);
         $this->render('users.reset', compact('form'));

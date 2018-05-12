@@ -12,7 +12,7 @@ use PDO;
  */
 class PostTable extends Table
 {
-    protected $table = "articles";
+    protected $table = "posts";
     /**
      *Révupère les derniers posts
      * @return array
@@ -20,33 +20,35 @@ class PostTable extends Table
 
     public function last(){
         return $this->query("
-            SELECT articles.id, articles.titre, articles.contenu, articles.date,articles.category_id, categories.nom as category
-            FROM articles
+            SELECT posts.id, posts.title, posts.content, posts.date,posts.category_id, categories.name as category
+            FROM posts
             LEFT JOIN categories
-            ON articles.category_id = categories.id
-            ORDER BY articles.date DESC
+            ON posts.category_id = categories.id
+            ORDER BY posts.date DESC
         ");
     }
 
     public function findWithCategory($id){
         return $this->query("
-          SELECT articles.id,articles.titre, articles.contenu,articles.category_id, categories.nom as category
-          FROM articles
+          SELECT posts.id,posts.title, posts.content,posts.category_id, 
+          categories.name as category
+          FROM posts
           LEFT JOIN categories
-          ON categories.id = articles.category_id
-          WHERE articles.id = ?
-          ORDER BY articles.date DESC
+          ON categories.id = posts.category_id
+          WHERE posts.id = ?
+          ORDER BY posts.date DESC
           ", [$id], true);
     }
 
     public function lastByCategory($category_id){
         return $this->query("
-          SELECT articles.id,articles.titre, articles.contenu,articles.category_id, categories.nom as category
-          FROM articles
+          SELECT posts.id,posts.title, posts.content,posts.category_id, 
+          categories.name as category
+          FROM posts
           LEFT JOIN categories
-          ON categories.id = articles.category_id
+          ON categories.id = posts.category_id
           WHERE category_id = ?
-          ORDER BY articles.date DESC
+          ORDER BY posts.date DESC
           ", [$category_id]);
     }
 
@@ -71,20 +73,21 @@ class PostTable extends Table
         $offset = (int)$offset;
         $limit = (int)$limit;
         $req = $this->db->getPDO()->prepare('
-        SELECT articles.id, articles.titre, articles.contenu, articles.date,articles.category_id, categories.nom as category
-            FROM articles
+        SELECT posts.id, posts.title, posts.content, posts.date,posts.category_id, 
+        categories.name as category
+            FROM posts
             LEFT JOIN categories
-            ON articles.category_id = categories.id
-            ORDER BY articles.date DESC LIMIT :offset, :limit');
+            ON posts.category_id = categories.id
+            ORDER BY posts.date DESC LIMIT :offset, :limit');
         $req->bindParam(':offset', $offset, PDO::PARAM_INT);
-        $req->bindParam(':limit', $limit, PDO::PARAM_INT);
         $req->execute();
+        $req->bindParam(':limit', $limit, PDO::PARAM_INT);
         $result = $req->fetchAll();
         return $result;
     }
 
     public function export(){
-        $sql = "SELECT id as Id,titre as Titre,contenu as Contenu FROM articles";
+        $sql = "SELECT id as Id,title as Titre,content as Contenu FROM posts";
         $req = $this->db->getPDO()->prepare($sql);
         $req->execute();
         return $req->fetchAll();

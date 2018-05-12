@@ -33,6 +33,10 @@ class DBAuth
         $this->db = $db;
     }
 
+    public function ifIsNotLogged(){
+
+    }
+
 
     /**
      * Obtenir une instance de la classe DBAuth
@@ -45,51 +49,35 @@ class DBAuth
         return self::$_instance;
     }
 
-    public function getUserId(){
-        if($this->logged()){
-            return $_SESSION['auth'];
-        }
-        return false;
-    }
-
     /**
      * Authentification de l'utlisateur avec un $email et son $password
      * Si la variable $remenber est renseigner dans notre controller, l'authenification sera persisté dans le cookies
      * @param $email
      * @param $password
-     * @param null $remenber
      * @return bool
+     * @throws \Exception
+     * @internal param null $remenber
      */
-    public function login($email, $password,$remenber = null){
+    public function login($email, $password){
         $user = $this->db->prepare('SELECT * FROM users WHERE email = ?', [$email], null, true);
-        //$user = $req->fetch();
+        //$user = $user->fetch();
         if($user){
             if($user->password === sha1($password)){
-                $_SESSION['auth'] = $user->id;
-                if ($remenber){
+                $_SESSION['auth'] = $user;
+                /*if ($remenber){
                     $remenber_token = str_random(250);
                     $req = $this->db->getPDO()->prepare("UPDATE users SET remenber = ? WHERE id = ?");
                     $req->execute([$remenber_token, $user->id]);
                     setcookie('remenber', $user->id . '==' . $remenber_token . sha1($user->id . 'ratonvaleurs')
                         , time() + 60 * 60 * 24* 7);
-                }
-
+                }*/
+            }else{
+                //throw new \Exception('Cet utilisateur n\'existe pas ');
             }
-            return true;
         }
         return false;
     }
 
-    /**
-     * Verifie si la session existe
-     * @return bool
-     */
-    public function logged(){
-        if(isset($_SESSION['auth'])){
-            return true;
-        }
-        return false;
-    }
 
     /**
      * Simple et efficace pour géré le système de rappelle de mot de passse
@@ -122,7 +110,7 @@ class DBAuth
      * @param $password_confirm
      */
     public function resetPassword($id, $token,$password, $password_confirm){
-        if(isset($id) && isset($token)){
+        if(isset($id) || empty($id) && isset($token) || empty($token)){
             $req = $this->db->getPDO()->prepare("SELECT * FROM users WHERE id = ? AND reset_token IS NOT NULL AND reset_token = ?
             AND reset_at > DATE_SUB(NOW(), INTERVAL 30 MINUTE)");
             $req->execute([$id, $token]);
@@ -136,11 +124,14 @@ class DBAuth
                     exit();
                 }
             }else{
-                Session::getSession();
                 Session::setFlash("Ce token n'est pas valide", "danger");
                 die("Ce token n'a pas marcher");
                 exit();
             }
+        }else{
+            Session::setFlash("Pas de token générer pour cette action", "danger");
+            die("Pas de token générer pour cette action");
+            exit();
         }
     }
 

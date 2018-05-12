@@ -1,11 +1,17 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+	session_start();
+}
 use App\Controller\PostsController;
 use App\Controller\UsersController;
+use Core\Session\Session;
+
 define('ROOT', dirname(__DIR__));
 require '../app/App.php';
 require '../config/includes.php';
 require ROOT . '/config/includes.php';
 App::load();
+Session::getSession();
 if (isset($_GET['p'])) {
 	$page = $_GET['p'];
 }else{

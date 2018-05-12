@@ -1,6 +1,6 @@
 <form action="" method="post" enctype="multipart/form-data">
-    <?= $form->input('titre', 'Titre'); ?>
-    <?= $form->input('contenu', 'Contenu', ['type' => 'textarea']); ?>
+    <?= $form->input('title', 'Titre'); ?>
+    <?= $form->input('content', 'Contenu', ['type' => 'textarea']); ?>
     <?= $form->select('category_id', 'Categories', $categories_list); ?>
     <div class="form-group">
         <label>Fichier</label>

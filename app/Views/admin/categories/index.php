@@ -14,7 +14,7 @@
 		<?php foreach ($categories as $post): ?>
 			<tr>
 				<td><?= $post->id ?></td>
-				<td><?= $post->nom ?></td>
+				<td><?= $post->name ?></td>
 				<td>
 					<a class="btn btn-primary" href="?p=admin.categories.edit&id=<?= $post->id ?>">Editer</a>
 						<form action="?p=admin.categories.delete" style="display: inline;" method="post">

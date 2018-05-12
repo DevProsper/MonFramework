@@ -15,6 +15,9 @@
         </form>
 	</div>
 </div><br>
+<div class="row">
+        <?php var_dump($_SESSION['auth']); ?>
+    </div>
 <p>
 	<a href="?p=admin.posts.index.excel" class="btn btn-sm btn-primary">Exporter en excel</a>
 </p>
@@ -30,7 +33,7 @@
 		<?php foreach ($posts as $post): ?>
 			<tr>
 				<td><?= $post->id ?></td>
-				<td><?= $post->titre ?></td>
+				<td><?= $post->title ?></td>
 				<td>
 					<a class="btn btn-primary" href="?p=admin.posts.edit&id=<?= $post->id ?>">Editer</a>
 						<form action="?p=admin.posts.delete" style="display: inline;" method="post">

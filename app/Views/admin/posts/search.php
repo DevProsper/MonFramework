@@ -29,7 +29,7 @@
 			<?php foreach ($posts as $post): ?>
 				<tr>
 					<td><?= $post->id ?></td>
-					<td><?= $post->titre ?></td>
+					<td><?= $post->title ?></td>
 					<td>
 						<a class="btn btn-primary" href="?p=admin.posts.edit&id=<?= $post->id ?>">Editer</a>
 							<form action="?p=admin.posts.delete" style="display: inline;" method="post">

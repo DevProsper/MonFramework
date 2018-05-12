@@ -12,6 +12,7 @@ use Core\Session\Session;
  */
 class PostsController extends AdminAppController
 {
+    private $auth;
 
     public function __construct(){
         parent::__construct();
@@ -23,7 +24,7 @@ class PostsController extends AdminAppController
         if(isset($_POST['query'])){
             $query = $_POST['query'];
             $q = '%'.$query.'%';
-            $sql = "SELECT * FROM articles WHERE titre LIKE '%$query%'";
+            $sql = "SELECT * FROM posts WHERE title LIKE '%$query%'";
             $sql = $this->db->getPDO()->prepare($sql);
             $sql->execute([$q]);
             $count = $sql->rowCount();
@@ -45,8 +46,8 @@ class PostsController extends AdminAppController
         if(!empty($_POST)){
             $files = $_FILES['file_name'];
             $result = $this->Post->create([
-                'titre' => $_POST['titre'],
-                'contenu'  => $_POST['contenu'],
+                'title' => $_POST['title'],
+                'content'  => $_POST['content'],
                 'category_id'  => $_POST['category_id']
             ]);
             $id = $this->db->getPDO()->lastInsertId();
@@ -56,7 +57,7 @@ class PostsController extends AdminAppController
                 header("Location: index.php?p=admin.posts.index");
             }
         }
-        $categories_list = $this->Category->extract('id', 'nom');
+        $categories_list = $this->Category->extract('id', 'name');
         $form = new BootstrapForm($_POST);
         $this->render('admin.posts.edit', compact('form', 'categories_list'));
 
@@ -66,8 +67,8 @@ class PostsController extends AdminAppController
         if(!empty($_POST)){
             $files = $_FILES['file_name'];
             $result = $this->Post->update($_GET['id'],[
-                'titre' => $_POST['titre'],
-                'contenu'  => $_POST['contenu'],
+                'title' => $_POST['title'],
+                'content'  => $_POST['content'],
                 'category_id'  => $_POST['category_id']
             ]);
             $extensions = array('jpg','png','jpeg','JPG');
@@ -77,7 +78,7 @@ class PostsController extends AdminAppController
             }
         }
         $post = $this->Post->find($_GET['id']);
-        $categories_list = $this->Category->extract('id', 'nom');
+        $categories_list = $this->Category->extract('id', 'name');
         $form = new BootstrapForm($post);
         Session::setFlash("Ce post a bien �t� modifi�", "success");
         $this->render('admin.posts.edit', compact('form', 'categories_list'));

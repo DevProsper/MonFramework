@@ -4,7 +4,6 @@ use Core\Auth\DBAuth;
 use Core\Controller\Controller;
 use \App;
 use Core\Database\MysqlDatabase;
-use Core\Library\Upload\Upload;
 
 /**
  * Created by PhpStorm.
@@ -60,27 +59,32 @@ class AppController extends Controller
         $this->$model_name = App::getInstance()->getTable($model_name);
     }
 
-    public function forbidden()
-    {
-        header('HTTP/1.0 403 Forbidden');
-        $this->redirectLogin();
-    }
-
     public function notFound(){
         header('HTTP/1.0 404 Not Found');
     }
 
-    public function redirectHome(){
-        header("Location: " .ROOT. "/public/index.php?p=home");
+
+
+    public function redirect($path){
+        header('Location:index.php?p='.$path);
     }
 
+    public function redirectAdmin($path){
+        header('Location:index.php?p=admin.'.$path);
+    }
+
+    public function redirectUsers($path){
+        header('Location:index.php?p=users.'.$path);
+    }
+
+    /**
+     * Verifie si la session existe
+     * @return bool
+     */
     public function isLogged(){
-        if($this->auth->logged()){
-            header('Location:index.php?p=admin.posts.index');
+        if(isset($_SESSION['auth'])){
+            $this->redirectAdmin('posts.index');
+            return $_SESSION['auth'];
         }
-    }
-
-    public function redirectLogin(){
-        header('Location' .ROOT_WEBSITE.'login.php');
     }
 }
