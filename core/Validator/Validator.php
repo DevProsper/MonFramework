@@ -13,6 +13,7 @@ class Validator
     protected $errors = [];
 
     public function __construct(array $data = []){
+        $this->errors = [];
         $this->data = $data;
     }
     /**
@@ -25,8 +26,16 @@ class Validator
         return $this->errors;
     }
 
+    public function emailvalide(string $field) : bool{
+        if(!filter_var($field, FILTER_VALIDATE_EMAIL)){
+            $this->errors[$field] = "Email invalide";
+            return false;
+        }
+        return true;
+    }
+
     public function validate(string $field, string $method, ...$parameters){
-        if(!isset($this->data[$field])){
+        if(empty($this->data[$field])){
             $this->errors[$field] = "Le champ $field n'est pas rempli";
         }else{
             call_user_func([$this, $method], $field, ...$parameters);
@@ -34,8 +43,8 @@ class Validator
     }
 
     public function minLenght(string $field, int $lenght) : bool{
-        if(strlen($field) > $lenght){
-            $this->errors[$field] = "Le champ doit avoir plus de $lenght caractère";
+        if(mb_strlen($lenght) == $field){
+            $this->errors[$field] = "Le champ $field doit avoir plus de $lenght caractère";
             return false;
         }
         return true;

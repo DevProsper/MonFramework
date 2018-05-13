@@ -14,7 +14,7 @@ use Core\Auth\DBAuth;
 
 class AdminAppController extends AppController
 {
-    private $auth;
+    protected $auth;
 
     public function __construct(){
         parent::__construct();
@@ -22,6 +22,51 @@ class AdminAppController extends AppController
         $this->auth = new DBAuth($app->getDB());
         if(!isset($_SESSION['auth'])){
             header('Location: index.php?p=login');
+        }
+    }
+
+    public function isAdmin(){
+        if(isset($_SESSION['auth'])) {
+            $a = [
+                'email'	=> $_SESSION['auth']->email
+            ];
+            $sql = "SELECT * FROM users WHERE email=:email AND function_id=1";
+            $req = $this->db->getPDO()->prepare($sql);
+            $req->execute($a);
+            $exist = $req->rowCount($sql);
+            return $exist;
+        }else{
+            return 0;
+        }
+    }
+
+    public function isModo(){
+        if(isset($_SESSION['auth'])) {
+            $a = [
+                'email'	=> $_SESSION['auth']->email
+            ];
+            $sql = "SELECT * FROM users WHERE email=:email AND function_id=2";
+            $req = $this->db->getPDO()->prepare($sql);
+            $req->execute($a);
+            $exist = $req->rowCount($sql);
+            return $exist;
+        }else{
+            return 0;
+        }
+    }
+
+    public function isReda(){
+        if(isset($_SESSION['auth'])) {
+            $a = [
+                'email'	=> $_SESSION['auth']->email
+            ];
+            $sql = "SELECT * FROM users WHERE email=:email AND function_id=3";
+            $req = $this->db->getPDO()->prepare($sql);
+            $req->execute($a);
+            $exist = $req->rowCount($sql);
+            return $exist;
+        }else{
+            return 0;
         }
     }
 }

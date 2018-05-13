@@ -54,7 +54,7 @@ class UsersController extends AppController
         $errors = false;
         if (!empty($_POST)) {
             if($this->auth->login($_POST['email'], $_POST['password'])){
-                header('Location: index.php?p=admin.posts.index');
+               $this->redirectAdmin('posts.index');
             }
         }
         $form = new BootstrapForm($_POST);

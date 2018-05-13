@@ -12,7 +12,7 @@ use Core\Session\Session;
  */
 class PostsController extends AdminAppController
 {
-    private $auth;
+    protected $auth;
 
     public function __construct(){
         parent::__construct();
@@ -56,6 +56,9 @@ class PostsController extends AdminAppController
                 $this->uploadFile($files, $id,$extensions);
                 header("Location: index.php?p=admin.posts.index");
             }
+        }
+        if($this->isAdmin() != 1){
+            $this->redirectAdmin('posts.index');
         }
         $categories_list = $this->Category->extract('id', 'name');
         $form = new BootstrapForm($_POST);
