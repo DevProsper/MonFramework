@@ -16,6 +16,16 @@ class PostsController extends AppController
         $this->loadModel('Category');
     }
 
+    public function paginnate(){
+        $total = $this->Post->tableCount();
+        $perPage = 1;
+        $current = 1;
+        $nbPage = ceil($total/$perPage);
+        $requette = $this->paginatePost($current,$nbPage,$perPage);
+        $categories = $this->Category->all();
+        $this->render('posts.index', compact('posts', 'categories','requette','nbPage','current'));
+    }
+
     public function index(){
         $posts = $this->Post->last();
         $categories = $this->Category->all();
@@ -26,7 +36,7 @@ class PostsController extends AppController
         $fields = array('fields_table' => array('category_id', 'id'));
         $conditions = array('online'=> 1,'type'=>'post');
         $posts = $this->Post->findWithCondition(array(
-            'fields' => 'id,titre,contenu','category_id',
+            'fields' => 'id,title,content','category_id',
             'join' => array(
                 'table' => 'categories',
                 'mode' => 'JOIN',

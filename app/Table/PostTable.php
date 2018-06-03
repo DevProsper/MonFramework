@@ -7,7 +7,7 @@ use PDO;
 /**
  * Created by PhpStorm.
  * Users: DevProsper
- * Date: 12/03/2018
+ * created: 12/03/2018
  * Time: 18:17
  */
 class PostTable extends Table
@@ -19,12 +19,22 @@ class PostTable extends Table
      */
 
     public function last(){
-        return $this->query("
-            SELECT posts.id, posts.title, posts.content, posts.date,posts.category_id, categories.name as category
+        return $this->db->getPDO()->query("
+            SELECT posts.id, posts.title, posts.content, posts.created,posts.category_id, categories.name as category
             FROM posts
             LEFT JOIN categories
             ON posts.category_id = categories.id
-            ORDER BY posts.date DESC
+            ORDER BY posts.created DESC
+        ");
+    }
+
+    public function lastP($offset,$limit){
+        return $this->db->getPDO()->query("
+            SELECT posts.id, posts.title, posts.content, posts.created,posts.category_id, categories.name as category
+            FROM posts
+            LEFT JOIN categories
+            ON posts.category_id = categories.id
+            ORDER BY posts.created DESC LIMIT $offset,$limit
         ");
     }
 
@@ -36,7 +46,7 @@ class PostTable extends Table
           LEFT JOIN categories
           ON categories.id = posts.category_id
           WHERE posts.id = ?
-          ORDER BY posts.date DESC
+          ORDER BY posts.created DESC
           ", [$id], true);
     }
 
@@ -48,7 +58,7 @@ class PostTable extends Table
           LEFT JOIN categories
           ON categories.id = posts.category_id
           WHERE category_id = ?
-          ORDER BY posts.date DESC
+          ORDER BY posts.created DESC
           ", [$category_id]);
     }
 
@@ -67,23 +77,6 @@ class PostTable extends Table
         $sql = "UPDATE files SET file_name=:file_name WHERE id= :id";
         $req = $this->db->getPDO()->prepare($sql);
         $req->execute($i);
-    }
-
-    public function paginate($offset,$limit){
-        $offset = (int)$offset;
-        $limit = (int)$limit;
-        $req = $this->db->getPDO()->prepare('
-        SELECT posts.id, posts.title, posts.content, posts.date,posts.category_id, 
-        categories.name as category
-            FROM posts
-            LEFT JOIN categories
-            ON posts.category_id = categories.id
-            ORDER BY posts.date DESC LIMIT :offset, :limit');
-        $req->bindParam(':offset', $offset, PDO::PARAM_INT);
-        $req->execute();
-        $req->bindParam(':limit', $limit, PDO::PARAM_INT);
-        $result = $req->fetchAll();
-        return $result;
     }
 
     public function export(){

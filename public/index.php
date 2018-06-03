@@ -12,10 +12,10 @@ require '../config/includes.php';
 require ROOT . '/config/includes.php';
 App::load();
 Session::getSession();
-if (isset($_GET['p'])) {
-	$page = $_GET['p'];
+if (isset($_GET['module'])) {
+	$module = $_GET['module'];
 }else{
-	$page = 'home';
+	$module = 'home';
 }
 /*$page = explode('.', $page);
 if ($page[0] == 'admin') {
@@ -31,11 +31,11 @@ $controller->$action();*/
 	$controller = new PostsController();
 	$controller->test();
 }*/
-switch($page){
+switch($module){
 	//FRONT END
 	case 'home':
 		$controller = new PostsController();
-		$controller->index();
+		$controller->paginnate();
 		break;
 	case 'posts.category':
 		$controller = new PostsController();
@@ -67,18 +67,30 @@ switch($page){
 		$controller = new \App\Controller\Admin\PostsController();
 		$controller->add();
 		break;
+	case 'admin.posts.delete':
+		$controller = new \App\Controller\Admin\PostsController();
+		$controller->delete();
+		break;
 	//LIBRAIRIE ADMINISTRATION
 	case 'admin.posts.index.excel':
 		$controller = new \App\Controller\Admin\PostsController();
 		$controller->export();
 		break;
 	//GESTION DES CATEGORIES ADMINISTRATION
-	case 'admin.categories.add':
+	case 'admin.categories.index':
 		$controller = new \App\Controller\Admin\CategoriesController();
 		$controller->index();
 		break;
-	case 'admin.posts.delete':
-		$controller = new \App\Controller\Admin\PostsController();
+	case 'admin.categories.edit':
+		$controller = new \App\Controller\Admin\CategoriesController();
+		$controller->edit();
+		break;
+	case 'admin.categories.add':
+		$controller = new \App\Controller\Admin\CategoriesController();
+		$controller->add();
+		break;
+	case 'admin.categories.delete':
+		$controller = new \App\Controller\Admin\CategoriesController();
 		$controller->delete();
 		break;
 	//GESTION DES UTILISATEURS

@@ -1,4 +1,5 @@
 <?php 
+require_once 'routes/routes.php';
 require_once 'debug.php';
 require_once 'password.php';
 require_once 'app.php';

@@ -38,7 +38,7 @@ class UsersController extends AppController
             if(empty($errors)){
                 $user = $this->User->hydrate(new UserRepository(), $data);
                 $this->User->createUser($user);
-                    //header('Location: index.php?p=users.forget');
+                urlHome();
                 exit();
             }
         }
@@ -54,24 +54,23 @@ class UsersController extends AppController
         $errors = false;
         if (!empty($_POST)) {
             if($this->auth->login($_POST['email'], $_POST['password'])){
-               $this->redirectAdmin('posts.index');
+               urlAdmin('posts.index');
             }
         }
         $form = new BootstrapForm($_POST);
-
         $this->render('users.login', compact('form', 'errors'));
     }
 
 
     public function logout(){
         unset($_SESSION['auth']);
-        header('Location: index.php?p=login');
+        urlLogin();
     }
 
     public function forgetPassword(){
         if (!empty($_POST)) {
             if($this->auth->forgetPassword($_POST['email'])){
-                $this->redirectHome();
+                urlHome();
             }
         }
         $form = new BootstrapForm($_POST);
@@ -83,11 +82,11 @@ class UsersController extends AppController
             if(!empty($_POST)){
                 $post  = $this->auth->resetPassword($_GET['id'], $_GET['token'],$_POST['password'],$_POST['paswword_confirm']);
                 if($post){
-                    header('Location: index.php?p=login');
+                    urlLogin();
                 }
             }
         }else{
-            header('Location: index.php?p=login');
+            urlLogin();
         }
         $form = new BootstrapForm($_POST);
         $this->render('users.reset', compact('form'));

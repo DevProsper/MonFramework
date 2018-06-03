@@ -1,6 +1,9 @@
 <?php
 namespace App\Controller\Admin;
+use App\Table\Repository\CategoryRepository;
+use App\Validator\CategoryValidator;
 use Core\Html\BootstrapForm;
+use Core\Session\Session;
 
 /**
  * Created by PhpStorm.
@@ -22,25 +25,30 @@ class CategoriesController extends AdminAppController
 
     public function add(){
         $errors = [];
-        if(!empty($_POST)){
-            $result = $this->Category->create([
-                'nom' => $_POST['nom']
-            ]);
-            if ($result) {
-                return $this->index();
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $data = $_POST;
+            $validator = new CategoryValidator();
+            $errors = $validator->validates($data);
+            if(empty($errors)){
+                $category = $this->Category->hydrate(new CategoryRepository(), $data);
+                $this->Category->createCategory($category);
+                header('Location: index.php?p=admin.categories.index');
+                exit();
             }
         }
+
         $form = new BootstrapForm($_POST);
-        $this->render('admin.categories.edit', compact('form'));
+        $this->render('admin.categories.edit', compact('form','errors', 'data'));
     }
 
     public function edit(){
         if(!empty($_POST)){
             $result = $this->Category->update($_GET['id'],[
-                'nom' => $_POST['nom']
+                'name' => $_POST['name']
             ]);
             if ($result) {
-               return $this->index();
+                Session::setFlash("Ce post a bien ?t? modifi?", "success");
+                header("Location: index.php?p=admin.categories.index");
             }
         }
         $categories = $this->Category->find($_GET['id']);
@@ -51,7 +59,8 @@ class CategoriesController extends AdminAppController
     public function delete(){
         if(!empty($_POST)){
             $this->Category->delete($_POST['id']);
-            $this->index();
+            Session::setFlash("Ce post a bien ?t? modifi?", "success");
+            header("Location: index.php?p=admin.categories.index");
         }
     }
 }

@@ -19,7 +19,6 @@ class UserValidator extends Validator
      */
     public function validates(array $data){
         parent::validates($data);
-        $this->validate('name', 'emailvalide');
         //$this->validate('name', 'minLenght',5);
         return $this->errors;
     }

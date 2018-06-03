@@ -140,12 +140,6 @@ class Table
         return $this->query("DELETE FROM {$this->table} WHERE id = ?", [$id], true);
     }
 
-   public function gueryPaginate($statment){
-        $req = $this->db->getPDO()->prepare($statment);
-       $result = $req->fetchAll();
-       return $result;
-   }
-
     /**
      * Permet de savoir le nombre de donnée dans une table
      * @return mixed
@@ -233,5 +227,21 @@ class Table
 
     public function quote($vaulue){
         $this->db->getPDO()->quote($vaulue);
+    }
+
+    public function extra(){
+        $select = $this->db->getPDO()->query("SELECT id, name FROM $this->table ORDER BY name ASC");
+        $table_field = $select->fetchAll();
+        $table_field_list = array();
+        foreach ($table_field as $filed) {
+            $table_field_list[$filed['id']] = $filed['name'];
+        }
+        return $table_field_list;
+    }
+
+    public function paginateStatement($statement,$offset,$limit){
+        $requette = $this->db->getPDO()
+        ->query($statement.' LIMIT '.$offset.','.$limit);
+        return $requette;
     }
 }

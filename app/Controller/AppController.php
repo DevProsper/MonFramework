@@ -13,13 +13,14 @@ use Core\Database\MysqlDatabase;
  */
 class AppController extends Controller
 {
-    protected $template = 'default';
-    private $auth;
+
+    protected $auth;
     protected $db;
 
     public function __construct(){
         $this->viewPath = ROOT . '/app/Views/';
         $this->loadModel('Post');
+        $this->template = "default";
         $this->auth = new DBAuth(App::getInstance()->getDB());
         $this->db = new MysqlDatabase(App::getInstance()->getDB());
     }
@@ -38,7 +39,7 @@ class AppController extends Controller
                 $req->execute([$idPost]);
                 $file_id = $this->db->getPDO()->lastInsertId();
                 //création du fichier
-                $directoryName = PATH_IMAGE.$idPost.'/';
+                $directoryName = PATH_IMAGE."/".$idPost.'/';
                 if(!is_dir($directoryName)){
                     //Directory does not exist, so lets create it.
                     mkdir($directoryName, 0755, true);
@@ -55,7 +56,7 @@ class AppController extends Controller
         }
     }
 
-    protected function loadModel($model_name){
+    protected function loadModel($model_name,$respository = null){
         $this->$model_name = App::getInstance()->getTable($model_name);
     }
 
@@ -65,16 +66,13 @@ class AppController extends Controller
 
 
 
-    public function redirect($path){
-        header('Location:index.php?p='.$path);
-    }
 
-    public function redirectAdmin($path){
-        header('Location:index.php?p=admin.'.$path);
-    }
-
-    public function redirectUsers($path){
-        header('Location:index.php?p=users.'.$path);
+    public function paginatePost($current2,$nbPage2,$perPage){
+        $perPage = $this->perPage($perPage);
+        $nbPage = $nbPage2;
+        $firstOpage = $this->parametersPaginate($current2,$perPage,$nbPage);
+        $statement = $this->Post->lastP($firstOpage,$perPage);
+        return $statement;
     }
 
     /**
@@ -83,7 +81,7 @@ class AppController extends Controller
      */
     public function isLogged(){
         if(isset($_SESSION['auth'])){
-            $this->redirectAdmin('posts.index');
+            urlAdmin('posts.index');
             return $_SESSION['auth'];
         }
     }

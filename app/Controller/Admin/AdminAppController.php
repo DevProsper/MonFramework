@@ -14,12 +14,11 @@ use Core\Auth\DBAuth;
 
 class AdminAppController extends AppController
 {
-    protected $auth;
 
     public function __construct(){
         parent::__construct();
+        $this->template = "admin";
         $app = App::getInstance();
-        $this->auth = new DBAuth($app->getDB());
         if(!isset($_SESSION['auth'])){
             header('Location: index.php?p=login');
         }

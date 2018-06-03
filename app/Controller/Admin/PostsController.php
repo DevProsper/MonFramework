@@ -20,7 +20,6 @@ class PostsController extends AdminAppController
     }
 
     public function index(){
-        $posts = $this->Post->all();
         if(isset($_POST['query'])){
             $query = $_POST['query'];
             $q = '%'.$query.'%';
@@ -28,13 +27,17 @@ class PostsController extends AdminAppController
             $sql = $this->db->getPDO()->prepare($sql);
             $sql->execute([$q]);
             $count = $sql->rowCount();
-            var_dump($count);
-            echo " Résultats ======================================================";
-            $post = $sql->fetchAll();
-            var_dump($post);
-            die();
+            $posts = $sql->fetchAll();
+            $this->render('admin.posts.search', compact('posts','count'));
+        }else{
+            $total = $this->Post->tableCount();
+            $perPage = 4;
+            $current = 1;
+            $nbPage = ceil($total/$perPage);
+            $requette = $this->paginatePost($current,$nbPage,$perPage);
+            $posts = $this->Post->all();
+            $this->render('admin.posts.index', compact('posts','requette','nbPage','current'));
         }
-        $this->render('admin.posts.index', compact('posts','post'));
     }
 
     public function export(){
@@ -48,19 +51,21 @@ class PostsController extends AdminAppController
             $result = $this->Post->create([
                 'title' => $_POST['title'],
                 'content'  => $_POST['content'],
-                'category_id'  => $_POST['category_id']
+                'category_id'  => $_POST['category_id'],
+                'created'  => date('Y-m-d H:i:s')
             ]);
             $id = $this->db->getPDO()->lastInsertId();
             $extensions = array('jpg','png','jpeg','JPG','PNG','JPEG');
             if ($result) {
                 $this->uploadFile($files, $id,$extensions);
-                header("Location: index.php?p=admin.posts.index");
+                Session::setFlash("Ce post a bien �t� modifi�", "success");
+                urlAdmin('posts.index');
             }
         }
         if($this->isAdmin() != 1){
             $this->redirectAdmin('posts.index');
         }
-        $categories_list = $this->Category->extract('id', 'name');
+        $categories_list = $this->Category->extra();
         $form = new BootstrapForm($_POST);
         $this->render('admin.posts.edit', compact('form', 'categories_list'));
 
@@ -72,18 +77,20 @@ class PostsController extends AdminAppController
             $result = $this->Post->update($_GET['id'],[
                 'title' => $_POST['title'],
                 'content'  => $_POST['content'],
-                'category_id'  => $_POST['category_id']
+                'category_id'  => $_POST['category_id'],
+                'created'  => date('Y-m-d H:i:s')
             ]);
             $extensions = array('jpg','png','jpeg','JPG');
             if ($result) {
                 $this->uploadFile($files, $_GET['id'],$extensions);
-                header("Location: index.php?p=admin.posts.index");
+                Session::setFlash("Ce post a bien �t� modifi�", "success");
+                urlAdmin('posts.index');
             }
         }
         $post = $this->Post->find($_GET['id']);
-        $categories_list = $this->Category->extract('id', 'name');
+        //$categories_list = $this->Category->extract('id', 'name'); Ancienne Methode
+        $categories_list = $this->Category->extra();
         $form = new BootstrapForm($post);
-        Session::setFlash("Ce post a bien �t� modifi�", "success");
         $this->render('admin.posts.edit', compact('form', 'categories_list'));
     }
 
@@ -91,7 +98,7 @@ class PostsController extends AdminAppController
         if(!empty($_POST)){
             $this->Post->delete($_POST['id']);
             Session::setFlash("Ce post a bien �t� modifi�", "success");
-            header("Location: index.php?p=admin.posts.index");
+            urlAdmin('posts.index');
         }
     }
 }

@@ -26,14 +26,6 @@ class Validator
         return $this->errors;
     }
 
-    public function emailvalide(string $field) : bool{
-        if(!filter_var($field, FILTER_VALIDATE_EMAIL)){
-            $this->errors[$field] = "Email invalide";
-            return false;
-        }
-        return true;
-    }
-
     public function validate(string $field, string $method, ...$parameters){
         if(empty($this->data[$field])){
             $this->errors[$field] = "Le champ $field n'est pas rempli";
@@ -43,11 +35,18 @@ class Validator
     }
 
     public function minLenght(string $field, int $lenght) : bool{
-        if(mb_strlen($lenght) == $field){
-            $this->errors[$field] = "Le champ $field doit avoir plus de $lenght caractère";
+        if(strlen($field) < $lenght){
+            $this->errors[$field] = "Le champ $field doit avoir moins de $lenght caractère";
             return false;
         }
         return true;
+    }
+
+    public function isInt(string $field){
+        $pattern = "/[[:alnum:]]+/";
+        if(preg_match($pattern, $field)){
+            $this->errors[$field] = "Le champ $field doit être de valeur numérique";
+        }
     }
 
     public function date(string $field) : bool{

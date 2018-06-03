@@ -7,7 +7,7 @@ $url = explode($directory, $_SERVER['REQUEST_URI']);
 if (count($url) == 1) {
     define('WEBROOT', '/');
 }else{
-    define('WEBROOT', $url[0] . 'MonFramework/');
+    define('WEBROOT', $url[0] . 'Immobilier/');
 }
-
-define("WEBSITE", WWW_ROOT. '/public/index.php?p=');
+$root = dirname(WEBROOT);
+define("WEBSITE", WWW_ROOT. 'index.php?module=');
