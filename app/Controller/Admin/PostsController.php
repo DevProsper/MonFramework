@@ -2,7 +2,6 @@
 namespace App\Controller\Admin;
 use Core\Html\BootstrapForm;
 use Core\Library\Export\ExportDataExcel;
-use Core\Session\Session;
 
 /**
  * Created by PhpStorm.
@@ -23,7 +22,7 @@ class PostsController extends AdminAppController
         if(isset($_POST['query'])){
             $query = $_POST['query'];
             $q = '%'.$query.'%';
-            $sql = "SELECT * FROM posts WHERE title LIKE '%$query%'";
+            $sql = "SELECT * FROM posts WHERE title LIKE '%$query%' ORDER BY posts.created DESC";
             $sql = $this->db->getPDO()->prepare($sql);
             $sql->execute([$q]);
             $count = $sql->rowCount();
@@ -48,18 +47,30 @@ class PostsController extends AdminAppController
     public function add(){
         if(!empty($_POST)){
             $files = $_FILES['file_name'];
-            $result = $this->Post->create([
-                'title' => $_POST['title'],
-                'content'  => $_POST['content'],
-                'category_id'  => $_POST['category_id'],
-                'created'  => date('Y-m-d H:i:s')
-            ]);
-            $id = $this->db->getPDO()->lastInsertId();
-            $extensions = array('jpg','png','jpeg','JPG','PNG','JPEG');
-            if ($result) {
-                $this->uploadFile($files, $id,$extensions);
-                Session::setFlash("Ce post a bien �t� modifi�", "success");
-                urlAdmin('posts.index');
+            $title = htmlspecialchars(trim($_POST['title']));
+            $category_id = htmlspecialchars(trim($_POST['category_id']));
+            $content = htmlspecialchars(trim($_POST['content']));
+
+            $errors = [];
+            if (empty($title)) {
+                $errors['empty'] = "Tous les champs sont obligatoires";
+            }elseif(empty($content)){
+                $errors['empty'] = "Le contenu erreur";
+            }
+            if(empty($errors)){
+                $result = $this->Post->create([
+                    'title' => $title,
+                    'content'  => $content,
+                    'category_id'  => $category_id,
+                    'created'  => date('Y-m-d H:i:s')
+                ]);
+                $id = $this->db->getPDO()->lastInsertId();
+                $extensions = array('jpg','png','jpeg','JPG','PNG','JPEG');
+                if ($result) {
+                    $this->uploadFile($files, $id,$extensions);
+                    setFlash("Le post a bien été ajouter");
+                    urlAdmin('posts.index');
+                }
             }
         }
         if($this->isAdmin() != 1){
@@ -67,7 +78,7 @@ class PostsController extends AdminAppController
         }
         $categories_list = $this->Category->extra();
         $form = new BootstrapForm($_POST);
-        $this->render('admin.posts.edit', compact('form', 'categories_list'));
+        $this->render('admin.posts.edit', compact('form', 'categories_list','errors'));
 
     }
 
@@ -83,7 +94,7 @@ class PostsController extends AdminAppController
             $extensions = array('jpg','png','jpeg','JPG');
             if ($result) {
                 $this->uploadFile($files, $_GET['id'],$extensions);
-                Session::setFlash("Ce post a bien �t� modifi�", "success");
+                setFlash("Le post a bien été modifié");
                 urlAdmin('posts.index');
             }
         }
@@ -97,7 +108,7 @@ class PostsController extends AdminAppController
     public function delete(){
         if(!empty($_POST)){
             $this->Post->delete($_POST['id']);
-            Session::setFlash("Ce post a bien �t� modifi�", "success");
+            setFlash("Le post a bien été supprimer");
             urlAdmin('posts.index');
         }
     }

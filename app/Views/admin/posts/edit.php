@@ -6,6 +6,15 @@
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
+            <?php if (!empty($errors)): ?>
+                <div class="alert alert-danger">
+                    <?php
+                    foreach ($errors as $error) {
+                        echo $error."<br/>";
+                    }
+                    ?>
+                </div>
+            <?php endif ?>
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <div class="ibox-tools">
@@ -23,6 +32,9 @@
                                 </div>
                                 <div class="form-group">
                                     <?= $form->input('content', 'Contenu', ['type' => 'textarea']); ?>
+                                </div>
+                                <div class="form-group">
+                                    <?= $form->select('category_id', 'Categories', $categories_list); ?>
                                 </div>
                                 <div class="form-group">
                                     <label>Fichier</label>

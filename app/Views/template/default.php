@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <script rel="stylesheet" type="text/javascript" src="public/js/jquery.js"></script>
     <link rel="stylesheet" type="text/css" href="public/css/bootstrap.min.css">
-    <title><?php use Core\Session\Session;App::getInstance()->title;  ?></title>
+    <title><?php App::getInstance()->title;  ?></title>
 
     <!-- Bootstrap core CSS -->
 
@@ -46,7 +46,7 @@
     </style>
 
     <div class="container cont">
-        <?= Session::flash(); ?>
+        Flash
       <div class="starter-template">
         <?= $content; ?>
       </div>

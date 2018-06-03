@@ -3,7 +3,7 @@
 		<h2>GESTION DES COMMANDES</h2>
 	</div>
 	<div class="col-lg-12">
-		Flash
+		<?= flash(); ?>
 	</div>
 </div>
 <div class="wrapper wrapper-content animated fadeInRight ecommerce">

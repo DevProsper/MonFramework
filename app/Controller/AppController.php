@@ -16,6 +16,7 @@ class AppController extends Controller
 
     protected $auth;
     protected $db;
+    protected $extension;
 
     public function __construct(){
         $this->viewPath = ROOT . '/app/Views/';
@@ -33,8 +34,8 @@ class AppController extends Controller
                 'name'  => $files['name'][$k],
                 'tmp_name'  => $files['tmp_name'][$k]
             );
-            $extension = pathinfo($file_name['name'], PATHINFO_EXTENSION);
-            if(in_array($extension, $extensions)){
+            $this->extension = pathinfo($file_name['name'], PATHINFO_EXTENSION);
+            if(in_array($this->extension, $extensions)){
                 $req = $this->db->getPDO()->prepare("INSERT INTO files SET post_id=$idPost");
                 $req->execute([$idPost]);
                 $file_id = $this->db->getPDO()->lastInsertId();
@@ -44,7 +45,7 @@ class AppController extends Controller
                     //Directory does not exist, so lets create it.
                     mkdir($directoryName, 0755, true);
                 }
-                $image_name = time() + 7 ."post".$file_id.'.'.$extension;
+                $image_name = time() + 7 ."post".$file_id.'.'.$this->extension;
                 move_uploaded_file($file_name['tmp_name'], $directoryName.$image_name);
                 $i = [
                     'id' =>$file_id,

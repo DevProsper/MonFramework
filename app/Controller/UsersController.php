@@ -18,7 +18,7 @@ class UsersController extends AppController
      */
     private $repository;
 
-    private $auth;
+    protected $auth;
 
     public function __construct(){
         parent::__construct();

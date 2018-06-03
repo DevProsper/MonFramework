@@ -1,5 +1,7 @@
 <?php
 namespace Core\Controller;
+use Core\Session\Session;
+
 /**
  * Created by PhpStorm.
  * Users: DevProsper
@@ -8,6 +10,8 @@ namespace Core\Controller;
  */
 class Controller
 {
+    protected $session;
+
     /**
      * Chemin du fichier renvoyer par le controller
      */

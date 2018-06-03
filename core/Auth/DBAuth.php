@@ -2,7 +2,6 @@
 namespace Core\Auth;
 use Core\Database\Database;
 use Core\Database\MysqlDatabase;
-use Core\Session\Session;
 
 /**
  * Created by PhpStorm.
@@ -64,13 +63,6 @@ class DBAuth
         if($user){
             if($user->password === sha1($password)){
                 $_SESSION['auth'] = $user;
-                /*if ($remenber){
-                    $remenber_token = str_random(250);
-                    $req = $this->db->getPDO()->prepare("UPDATE users SET remenber = ? WHERE id = ?");
-                    $req->execute([$remenber_token, $user->id]);
-                    setcookie('remenber', $user->id . '==' . $remenber_token . sha1($user->id . 'ratonvaleurs')
-                        , time() + 60 * 60 * 24* 7);
-                }*/
             }else{
                 //throw new \Exception('Cet utilisateur n\'existe pas ');
             }
@@ -119,17 +111,17 @@ class DBAuth
                 if (!empty($password) && $password == $password_confirm) {
                     $password2 = sha1($password);
                     $this->db->getPDO()->prepare("UPDATE users SET password = ?, reset_token = NULL, reset_at = NULL")->execute([$password2]);
-                    Session::setFlash("Votre mot de passe a bien été modifié", "success");
+                    setFlash("Votre mot de passe a bien été modifié", "success");
                     header("Location:" .WEBSITE. "login");
                     exit();
                 }
             }else{
-                Session::setFlash("Ce token n'est pas valide", "danger");
+                setFlash("Ce token n'est pas valide", "danger");
                 die("Ce token n'a pas marcher");
                 exit();
             }
         }else{
-            Session::setFlash("Pas de token générer pour cette action", "danger");
+            setFlash("Pas de token générer pour cette action", "danger");
             die("Pas de token générer pour cette action");
             exit();
         }
@@ -139,7 +131,6 @@ class DBAuth
      *Verifie si la cookie existe et évite l'utilisateur de se connecté à nouveau
      */
     public function reconnect_from_cookie(){
-        Session::getSession();
         if (isset($_COOKIE['remenber'])) {
             $remenber_token = $_COOKIE['remenber'];
             $parts = explode('==', $remenber_token);
@@ -150,7 +141,6 @@ class DBAuth
             if ($user) {
                 $expected = $user->id . '==' . $user->remenber . sha1($user->id . 'ratonvaleurs');
                 if ($expected == $remenber_token) {
-                    Session::getSession();
                     $_SESSION['auth'] = $user->id;
                     //Reconstruit le cookie
                     setcookie('remenber', $remenber_token, time() + 60 * 60 * 24 * 7);
