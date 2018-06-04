@@ -34,18 +34,32 @@
             <ul class="nav metismenu" id="side-menu">
                 <li class="nav-header">
                     <div class="dropdown profile-element"> <span>
+                            <img alt="image" class="img-circle" src="img/profile_small.jpg" />
                              </span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Administration du site</strong>
-                             </span> <span class="text-muted text-xs block">Quiter<b class="caret"></b></span> </span> </a>
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
+                             </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a href="index.php?module=logout">Déconnexion</a></li>
-                            <li><a href="index.php?module=home">Aller sur le site</a></li>
+                            <li><a href="profile.html">Profile</a></li>
+                            <li><a href="contacts.html">Contacts</a></li>
+                            <li><a href="mailbox.html">Mailbox</a></li>
+                            <li class="divider"></li>
+                            <li><a href="login.html">Logout</a></li>
                         </ul>
                     </div>
                     <div class="logo-element">
-                        JENNY+
+                        IN+
                     </div>
+                </li>
+                <li class="active">
+                    <a href="index-2.html"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span> <span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li class="active"><a href="index-2.html">Dashboard v.1</a></li>
+                        <li><a href="dashboard_2.html">Dashboard v.2</a></li>
+                        <li><a href="dashboard_3.html">Dashboard v.3</a></li>
+                        <li><a href="dashboard_4_1.html">Dashboard v.4</a></li>
+                        <li><a href="dashboard_5.html">Dashboard v.5 </a></li>
+                    </ul>
                 </li>
                 <li class="">
                     <a href="index.php?module=home"><i class="fa fa-th-large"></i> <span class="nav-label">Tableau de bord </span></span></a>
@@ -114,6 +128,7 @@
     <script src="public/admin/js/plugins/flot/jquery.flot.spline.js"></script>
     <script src="public/admin/js/plugins/flot/jquery.flot.resize.js"></script>
     <script src="public/admin/js/plugins/flot/jquery.flot.pie.js"></script>
+    <script src="public/admin/js/app.js"></script>
 
     <!-- Peity -->
     <script src="public/admin/js/plugins/peity/jquery.peity.min.js"></script>

@@ -17,6 +17,6 @@
         </form>
     </div>
     <div class="col-md-4">
-        <?php var_dump($_SESSION['auth']); ?>
+
     </div>
 </div>
