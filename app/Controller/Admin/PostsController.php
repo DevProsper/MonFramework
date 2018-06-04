@@ -50,12 +50,15 @@ class PostsController extends AdminAppController
             $title = htmlspecialchars(trim($_POST['title']));
             $category_id = htmlspecialchars(trim($_POST['category_id']));
             $content = htmlspecialchars(trim($_POST['content']));
+            $extensions = array('jpg','png','jpeg','JPG','PNG','JPEG');
 
             $errors = [];
             if (empty($title)) {
                 $errors['empty'] = "Tous les champs sont obligatoires";
             }elseif(empty($content)){
-                $errors['empty'] = "Le contenu erreur";
+                $errors['empty_contenu'] = "Le contenu erreur";
+            }elseif(in_array($this->extension, $extensions)){
+                $errors['files'] = "Format de fichier invalide";
             }
             if(empty($errors)){
                 $result = $this->Post->create([
@@ -65,7 +68,6 @@ class PostsController extends AdminAppController
                     'created'  => date('Y-m-d H:i:s')
                 ]);
                 $id = $this->db->getPDO()->lastInsertId();
-                $extensions = array('jpg','png','jpeg','JPG','PNG','JPEG');
                 if ($result) {
                     $this->uploadFile($files, $id,$extensions);
                     setFlash("Le post a bien été ajouter");

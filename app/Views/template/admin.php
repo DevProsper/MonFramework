@@ -40,6 +40,7 @@
                              </span> <span class="text-muted text-xs block">Quiter<b class="caret"></b></span> </span> </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
                             <li><a href="index.php?module=logout">Déconnexion</a></li>
+                            <li><a href="index.php?module=home">Aller sur le site</a></li>
                         </ul>
                     </div>
                     <div class="logo-element">
@@ -99,7 +100,59 @@
 </div>
 </div>
 
+<!-- Mainly scripts -->
+    <script src="public/admin/js/jquery-3.1.1.min.js"></script>
+    <script src="public/admin/js/bootstrap.min.js"></script>
+    <script src="public/admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="public/admin/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- SUMMERNOTE -->
+    <script src="public/admin/js/plugins/summernote/summernote.min.js"></script>
+
+    <!-- Flot -->
+    <script src="public/admin/js/plugins/flot/jquery.flot.js"></script>
+    <script src="public/admin/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="public/admin/js/plugins/flot/jquery.flot.spline.js"></script>
+    <script src="public/admin/js/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="public/admin/js/plugins/flot/jquery.flot.pie.js"></script>
+
+    <!-- Peity -->
+    <script src="public/admin/js/plugins/peity/jquery.peity.min.js"></script>
+    <script src="public/admin/js/demo/peity-demo.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="public/admin/js/plugins/pace/pace.min.js"></script>
+
+    <!-- jQuery UI -->
+    <script src="public/admin/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+    <!-- GITTER -->
+    <script src="public/admin/js/plugins/gritter/jquery.gritter.min.js"></script>
+    
+    <!-- Sparkline -->
+    <script src="public/admin/js/plugins/sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- Sparkline demo data  -->
+    <script src="public/admin/js/demo/sparkline-demo.js"></script>
+
+    <!-- ChartJS-->
+    <script src="public/admin/js/plugins/chartJs/Chart.min.js"></script>
+
+    <!-- Toastr -->
+    <script src="public/admin/js/plugins/toastr/toastr.min.js"></script>
+
+    <!-- iCheck -->
+    <script src="public/admin/js/plugins/iCheck/icheck.min.js"></script>
+
+    <!-- SUMMERNOTE -->
+    <script src="public/admin/js/plugins/summernote/summernote.min.js"></script>    
+    <script>
+        $(document).ready(function(){
+
+            $('.summernote').summernote();
+
+        });
+
+    </script>
 </body>
 
-<!-- Mirrored from webapplayers.com/inspinia_admin-v2.7.1/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 16 Jan 2018 05:33:39 GMT -->
 </html>
